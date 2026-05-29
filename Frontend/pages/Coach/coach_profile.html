@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>My Profile | Cricket CRM</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="../../css/dashboard.css">
+  <style>
+    .profile-card { background: white; border-radius: 16px; padding: 25px; margin-bottom: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+    .profile-header { display: flex; align-items: center; gap: 20px; margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px solid #e2e8f0; }
+    .profile-img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; }
+    .profile-title h3 { margin-bottom: 5px; font-size: 24px; }
+    .badge-active { background: #d1fae5; color: #065f46; padding: 4px 12px; border-radius: 20px; font-size: 12px; display: inline-block; margin-top: 8px; }
+    .details-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px; margin-bottom: 25px; }
+    .detail-item { display: flex; align-items: center; gap: 15px; padding: 12px; background: #f8fafc; border-radius: 12px; }
+    .detail-icon { width: 40px; height: 40px; background: #e2e8f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #2563eb; }
+    .detail-label { font-size: 12px; color: #64748b; }
+    .detail-value { font-weight: 500; color: #1e293b; }
+    .section-title { font-size: 18px; font-weight: 600; margin-bottom: 15px; color: #1e293b; display: flex; align-items: center; gap: 8px; }
+    .edit-btn { background: #2563eb; color: white; padding: 8px 20px; border-radius: 8px; text-decoration: none; border: none; cursor: pointer; }
+    .edit-btn:hover { background: #1d4ed8; color: white; }
+    .change-pwd-btn { background: #f59e0b; color: white; padding: 8px 20px; border-radius: 8px; text-decoration: none; border: none; cursor: pointer; margin-right: 10px; }
+    .change-pwd-btn:hover { background: #d97706; color: white; }
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
+    .modal-content { background: white; border-radius: 12px; width: 500px; max-width: 90%; padding: 25px; max-height: 80%; overflow-y: auto; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #ddd; }
+    .close-btn { cursor: pointer; font-size: 24px; color: #666; }
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; margin-bottom: 5px; font-weight: 500; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 8px 12px; border: 1px solid #ddd; border-radius: 5px; }
+    .btn-save { background: #10b981; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; width: 100%; }
+    .btn-save:hover { background: #059669; }
+  </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+  <div class="sidebar">
+    <h2>Cricket CRM</h2>
+    <p class="role">Coach Panel</p>
+    <a href="coach_dashboard.html"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+    <a href="coach_players.html"><i class="fa-solid fa-users"></i> My Players</a>
+    <a href="coach_attendance.html"><i class="fa-solid fa-calendar-check"></i> Attendance</a>
+    <a href="coach_performance.html"><i class="fa-solid fa-chart-simple"></i> Performance</a>
+    <a href="coach_notes.html"><i class="fa-solid fa-pen"></i> Notes</a>
+    <a href="coach_profile.html" class="active"><i class="fa-solid fa-user"></i> Profile</a>
+    <a href="coach_schedule.html"><i class="fa-solid fa-calendar-day"></i> Schedule</a>
+    <a href="#" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+  </div>
+
+  <div class="main-content">
+    <div class="page-header d-flex justify-content-between align-items-center">
+      <h2><i class="fa-solid fa-user"></i> My Profile</h2>
+      <div>
+        <button class="change-pwd-btn" onclick="changePassword()"><i class="fa-solid fa-key"></i> Change Password</button>
+        <button class="edit-btn" onclick="openEditModal()"><i class="fa-solid fa-pen-to-square"></i> Edit Profile</button>
+      </div>
+    </div>
+
+    <div class="profile-card">
+      <div class="profile-header">
+        <img id="profileImg" src="https://ui-avatars.com/api/?name=Coach&size=100&background=2563eb&color=fff" class="profile-img" alt="Coach Photo">
+        <div class="profile-title">
+          <h3 id="profileName">Loading...</h3>
+          <p id="profileRole"><i class="fa-solid fa-tag"></i> Loading...</p>
+          <span class="badge-active"><i class="fa-regular fa-circle-check"></i> Active</span>
+        </div>
+      </div>
+
+      <h4 class="section-title"><i class="fa-solid fa-user"></i> Personal Information</h4>
+      <div id="personalInfo" class="details-grid"></div>
+
+      <h4 class="section-title"><i class="fa-solid fa-briefcase"></i> Professional Information</h4>
+      <div id="professionalInfo" class="details-grid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Password Change Modal -->
+<div id="passwordModal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3><i class="fa-solid fa-key"></i> Change Password</h3>
+      <span class="close-btn" onclick="closePasswordModal()">&times;</span>
+    </div>
+    <form id="passwordForm">
+      <div class="form-group">
+        <label>Current Password</label>
+        <input type="password" id="current_password" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label>New Password</label>
+        <input type="password" id="new_password" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label>Confirm New Password</label>
+        <input type="password" id="confirm_password" class="form-control" required>
+      </div>
+      <button type="button" class="btn-save" onclick="updatePassword()">Update Password</button>
+    </form>
+  </div>
+</div>
+
+<!-- Edit Profile Modal -->
+<div id="editModal" class="modal" style="display: none;">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Edit Profile</h3>
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+    </div>
+    <form id="editForm">
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="full_name" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>Phone</label>
+        <input type="text" id="phone" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>Specialization</label>
+        <input type="text" id="specialization" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>Experience (Years)</label>
+        <input type="number" id="experience" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>Qualification</label>
+        <input type="text" id="qualification" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>Bio</label>
+        <textarea id="bio" class="form-control" rows="3"></textarea>
+      </div>
+      <button type="button" class="btn-save" onclick="updateProfile()">Save Changes</button>
+    </form>
+  </div>
+</div>
+
+<script src="../../js/coach/coach_common.js"></script>
+<script src="../../js/coach/coach_profile.js"></script>
+</body>
+</html>

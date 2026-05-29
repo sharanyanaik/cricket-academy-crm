@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Coach Dashboard | Cricket CRM</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../../css/dashboard.css">
+  
+  <style>
+    .user-info {
+        background: #f8fafc;
+        padding: 10px 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .card-box {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        text-align: center;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        transition: transform 0.2s;
+    }
+    .card-box:hover {
+        transform: translateY(-5px);
+    }
+    .card-box i {
+        font-size: 32px;
+        color: #2563eb;
+        margin-bottom: 10px;
+    }
+    .card-box h4 {
+        font-size: 28px;
+        font-weight: bold;
+        margin: 10px 0;
+    }
+    .table-card {
+        background: white;
+        border-radius: 12px;
+        padding: 20px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    .badge {
+        padding: 5px 12px;
+        border-radius: 20px;
+    }
+    .refresh-btn {
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+    .refresh-btn:hover {
+        transform: rotate(180deg);
+    }
+    .logout-btn {
+        background: #ef4444;
+        color: white;
+        border: none;
+        padding: 8px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+    .logout-btn:hover {
+        background: #dc2626;
+    }
+    .stat-card {
+        background: white;
+        border-radius: 12px;
+        padding: 15px;
+        text-align: center;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        transition: transform 0.2s;
+    }
+    .stat-card:hover {
+        transform: translateY(-3px);
+    }
+    .stat-card h3 {
+        font-size: 24px;
+        font-weight: bold;
+        margin: 10px 0;
+    }
+    .stat-card i {
+        font-size: 28px;
+    }
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+        margin-bottom: 25px;
+    }
+    .batch-card {
+        background: white;
+        border-radius: 12px;
+        padding: 15px;
+        margin-bottom: 10px;
+        border-left: 4px solid #2563eb;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    .batch-card:last-child {
+        margin-bottom: 0;
+    }
+    .batch-time {
+        font-size: 14px;
+        color: #64748b;
+    }
+    .batch-players {
+        font-size: 14px;
+        font-weight: 600;
+        color: #2563eb;
+    }
+    @media (max-width: 768px) {
+        .stats-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+  </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+  <div class="sidebar">
+    <h2>Cricket CRM</h2>
+    <p class="role">Coach Panel</p>
+    <a href="coach_dashboard.html" class="active"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+    <a href="coach_players.html"><i class="fa-solid fa-users"></i> My Players</a>
+    <a href="coach_attendence.html"><i class="fa-solid fa-calendar-check"></i> Attendance</a>
+    <a href="coach_performance.html"><i class="fa-solid fa-chart-simple"></i> Performance</a>
+    <a href="coach_notes.html"><i class="fa-solid fa-pen"></i> Notes</a>
+    <a href="coach_profile.html"><i class="fa-solid fa-user"></i> Profile</a>
+    <a href="coach_schedule.html"><i class="fa-solid fa-calendar-day"></i> Schedule</a>
+    <a href="#" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+  </div>
+
+  <div class="main-content">
+    <!-- User Info Section -->
+    <div class="user-info">
+      <div>
+        <i class="fa-solid fa-user-circle"></i> 
+        Welcome, <strong id="userName">Coach</strong>
+        <span class="badge bg-primary ms-2" id="userRole">Coach</span>
+      </div>
+      <button class="logout-btn" onclick="logout()">
+        <i class="fa-solid fa-right-from-bracket"></i> Logout
+      </button>
+    </div>
+
+    <div class="page-header d-flex justify-content-between align-items-center">
+      <h2><i class="fa-solid fa-chart-line"></i> Coach Dashboard</h2>
+      <i class="fa-solid fa-arrows-rotate refresh-btn" onclick="if(window.refreshData) refreshData()" style="font-size: 20px; cursor: pointer;"></i>
+    </div>
+
+    <!-- Summary Cards (Only 2 cards - Total Players & Present Today) -->
+    <div class="row g-4 mb-4">
+      <div class="col-md-6 col-sm-6">
+        <div class="card-box">
+          <i class="fa-solid fa-users"></i>
+          <h4 id="totalPlayers">0</h4>
+          <p>Total Players</p>
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-6">
+        <div class="card-box">
+          <i class="fa-regular fa-calendar-check"></i>
+          <h4 id="presentToday">0</h4>
+          <p>Present Today</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- My Batches Section (Replaces Batch Time Card) -->
+    <div class="table-card mb-4">
+      <h5><i class="fa-solid fa-layer-group"></i> My Batches</h5>
+      <div id="batchesList">
+        <div class="text-center text-muted">Loading batches...</div>
+      </div>
+    </div>
+
+    <!-- Quick Stats Grid (4 cards) -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <i class="fa-solid fa-bat" style="color: #3b82f6;"></i>
+        <h3 id="batsmenCount">0</h3>
+        <p>Batsmen</p>
+      </div>
+      <div class="stat-card">
+        <i class="fa-solid fa-baseball-ball" style="color: #10b981;"></i>
+        <h3 id="bowlersCount">0</h3>
+        <p>Bowlers</p>
+      </div>
+      <div class="stat-card">
+        <i class="fa-solid fa-people-arrows" style="color: #f59e0b;"></i>
+        <h3 id="allRoundersCount">0</h3>
+        <p>All-rounders</p>
+      </div>
+      <div class="stat-card">
+        <i class="fa-solid fa-glove" style="color: #8b5cf6;"></i>
+        <h3 id="wicketKeepersCount">0</h3>
+        <p>Wicket Keepers</p>
+      </div>
+    </div>
+
+    <!-- My Players Table -->
+    <div class="table-card">
+      <h5><i class="fa-solid fa-users"></i> My Players</h5>
+      <div class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Role</th>
+              <th>Batch</th>
+            </tr>
+          </thead>
+          <tbody id="playersTableBody">
+            <tr><td colspan="3" class="text-center">Loading players...<\/td><\/tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Floating Action Button for Coaches -->
+<div class="fab-container">
+    <div class="fab-button" onclick="toggleFabMenu()">
+        <i class="fa-solid fa-headset"></i>
+    </div>
+    <div class="fab-menu" id="fabMenu">
+        <a href="coach_messages.html">
+            <i class="fa-solid fa-envelope"></i>
+            <span>Contact Admin</span>
+        </a>
+        <a href="coach_announcements.html">
+            <i class="fa-solid fa-bullhorn"></i>
+            <span>Announcements</span>
+        </a>
+        <a href="coach_report_issue.html">
+            <i class="fa-solid fa-flag"></i>
+            <span>Report Issue</span>
+        </a>
+        <a href="#" onclick="openQuickMessage()">
+            <i class="fa-solid fa-paper-plane"></i>
+            <span>Quick Message</span>
+        </a>
+    </div>
+</div>
+<script src="../../js/coach/coach_common.js"></script>
+<script src="../../js/coach/coach_dashboard.js"></script>
+</body>
+</html>

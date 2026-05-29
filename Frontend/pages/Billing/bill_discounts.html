@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discounts | Cricket CRM - Billing</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/bill.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .stat-card h3 {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 8px 0;
+            color: #1e293b;
+        }
+        
+        .stat-card p {
+            color: #64748b;
+            font-size: 13px;
+            margin: 0;
+        }
+        
+        .stat-card i {
+            font-size: 28px;
+        }
+
+        .table-card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .table-card h5 {
+            margin-bottom: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #1e293b;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        .data-table th {
+            padding: 10px 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #475569;
+            border-bottom: 1px solid #e2e8f0;
+            background: #f8fafc;
+        }
+
+        .data-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #334155;
+        }
+
+        .data-table tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        .badge-active, .badge-paid {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            display: inline-block;
+        }
+
+        .badge-inactive, .badge-pending {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            display: inline-block;
+        }
+
+        .badge-discount {
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            display: inline-block;
+        }
+
+        .badge-scholarship {
+            background: #fef3c7;
+            color: #92400e;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            display: inline-block;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .page-header h2 {
+            font-size: 22px;
+            color: #1e293b;
+        }
+        
+        .page-header h2 i {
+            color: #2563eb;
+            margin-right: 10px;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-success-sm {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-success-sm:hover { background: #059669; }
+
+        .refresh-btn {
+            background: #64748b;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .refresh-btn:hover { background: #475569; }
+
+        .apply-form {
+            background: #f8fafc;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 1px solid #e2e8f0;
+            display: none;
+        }
+
+        .form-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .form-header h5 {
+            margin: 0;
+            font-size: 15px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+        .close-form {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #94a3b8;
+        }
+        .close-form:hover { color: #ef4444; }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        .full-width { grid-column: span 2; }
+
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 4px;
+            display: block;
+            color: #1e293b;
+            font-size: 13px;
+        }
+        .form-control, .form-select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+        textarea.form-control { min-height: 70px; resize: vertical; }
+
+        .info-text {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 4px;
+        }
+
+        .btn-save { background: #10b981; color: white; border: none; padding: 8px 20px; border-radius: 6px; cursor: pointer; }
+        .btn-save:hover { background: #059669; }
+        .btn-cancel { background: #e2e8f0; color: #475569; border: none; padding: 8px 20px; border-radius: 6px; cursor: pointer; }
+
+        @media (max-width: 768px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .form-row { grid-template-columns: 1fr; }
+            .full-width { grid-column: span 1; }
+            .page-header { flex-direction: column; align-items: stretch; }
+            .btn-group { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>Cricket <span>CRM</span></h2>
+            <p class="role">Billing Panel</p>
+        </div>
+        <div class="sidebar-menu">
+            <a href="billing_dashboard.html"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+            <a href="bill_invoices.html"><i class="fa-solid fa-file-invoice"></i> Invoices</a>
+            <a href="bill_payments.html"><i class="fa-solid fa-credit-card"></i> Payments</a>
+            <a href="bill_outstanding.html"><i class="fa-solid fa-clock"></i> Outstanding</a>
+            <a href="bill_fee_billing.html"><i class="fa-solid fa-indian-rupee-sign"></i> Fee Billing</a>
+            <a href="bill_discounts.html" class="active"><i class="fa-solid fa-tag"></i> Discounts</a>
+            <a href="#" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="page-header">
+            <h2><i class="fa-solid fa-tag"></i> Discounts</h2>
+            <div class="btn-group">
+                <button class="btn-success-sm" onclick="toggleApplyDiscountForm()">
+                    <i class="fa-solid fa-percent"></i> Apply Discount
+                </button>
+                <button class="refresh-btn" onclick="refreshData()">
+                    <i class="fa-solid fa-rotate-right"></i> Refresh
+                </button>
+            </div>
+        </div>
+
+        <!-- Apply Discount Form -->
+        <div class="apply-form" id="applyDiscountSection">
+            <div class="form-header">
+                <h5><i class="fa-solid fa-percent"></i> Apply Discount to Player</h5>
+                <button class="close-form" onclick="toggleApplyDiscountForm()">&times;</button>
+            </div>
+            <form id="applyDiscountForm" onsubmit="event.preventDefault(); applyDiscount();">
+                <div class="form-row">
+                    <div class="full-width">
+                        <label class="form-label">Select Player *</label>
+                        <select id="playerSelect" class="form-select" required>
+                            <option value="">-- Select Player --</option>
+                        </select>
+                    </div>
+                    <div class="full-width">
+                        <label class="form-label">Select Discount / Scholarship *</label>
+                        <select id="discountSelect" class="form-select" required>
+                            <option value="">-- Select Discount --</option>
+                        </select>
+                    </div>
+                    <div class="full-width">
+                        <label class="form-label">Remarks</label>
+                        <textarea id="discountRemarks" class="form-control" rows="2" placeholder="Optional remarks..."></textarea>
+                        <div class="info-text">Note: The validity period from the discount will be used automatically.</div>
+                    </div>
+                </div>
+                <div style="display: flex; gap: 10px; margin-top: 15px;">
+                    <button type="submit" class="btn-save">Apply Discount</button>
+                    <button type="button" class="btn-cancel" onclick="toggleApplyDiscountForm()">Cancel</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <i class="fa-solid fa-percent" style="color: #10b981;"></i>
+                <h3 id="totalDiscounts">0</h3>
+                <p>Active Discounts</p>
+            </div>
+            <div class="stat-card">
+                <i class="fa-solid fa-graduation-cap" style="color: #2563eb;"></i>
+                <h3 id="totalScholarships">0</h3>
+                <p>Active Scholarships</p>
+            </div>
+            <div class="stat-card">
+                <i class="fa-solid fa-users" style="color: #f59e0b;"></i>
+                <h3 id="totalPlayersDiscounted">0</h3>
+                <p>Players with Benefits</p>
+            </div>
+            <div class="stat-card">
+                <i class="fa-solid fa-indian-rupee-sign" style="color: #ef4444;"></i>
+                <h3 id="totalSavings">₹0</h3>
+                <p>Total Savings</p>
+            </div>
+        </div>
+
+        <!-- All Discounts & Scholarships Table -->
+        <div class="table-card">
+            <h5><i class="fa-solid fa-ticket"></i> All Discounts & Scholarships</h5>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Discount/Scholarship Name</th>
+                            <th>Eligibility</th>
+                            <th>Value</th>
+                            <th>Max Amount</th>
+                            <th>Valid From</th>
+                            <th>Valid Till</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="discountsTableBody">
+                        <tr><td colspan="8" class="text-center">Loading...</td</tr
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Players with Active Benefits -->
+        <div class="table-card">
+            <h5><i class="fa-solid fa-users"></i> Players with Active Benefits</h5>
+            <div class="table-responsive">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Player</th>
+                            <th>Benefit Type</th>
+                            <th>Benefit Name</th>
+                            <th>Benefit Value</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="activeDiscountsTableBody">
+                        <tr><td colspan="7" class="text-center">Loading...</td</tr
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../../js/billing/billing_common.js"></script>
+<script src="../../js/billing/bill_discounts.js"></script>
+</body>
+</html>

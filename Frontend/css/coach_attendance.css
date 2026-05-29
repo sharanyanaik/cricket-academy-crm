@@ -1,0 +1,262 @@
+/* ================= GLOBAL ================= */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f4f7fc;
+}
+
+/* ================= CONTAINER LAYOUT ================= */
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+
+/* ================= SIDEBAR ================= */
+.sidebar {
+  width: 220px;
+  background: linear-gradient(to bottom, #3a61b5, #2f4ea1);
+  padding: 20px 15px;
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar h2 {
+  text-align: center;
+  margin-bottom: 5px;
+  font-size: 22px;
+}
+
+.sidebar .role {
+  text-align: center;
+  font-size: 13px;
+  margin-bottom: 30px;
+  opacity: 0.8;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: #eaf1ff;
+  padding: 12px 15px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: 0.3s;
+  font-size: 15px;
+}
+
+.sidebar a:hover {
+  background: rgba(255,255,255,0.2);
+  padding-left: 20px;
+}
+
+.sidebar a.active {
+  background: rgba(255,255,255,0.3);
+  font-weight: bold;
+}
+
+/* ================= MAIN CONTENT ================= */
+.main-content {
+  flex: 1;
+  padding: 30px;
+  background: #f4f7fc;
+}
+
+/* ================= PAGE HEADER ================= */
+.page-header {
+  background: white;
+  padding: 18px 22px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  margin-bottom: 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.page-header h2 {
+  margin: 0;
+  color: #1e3a8a;
+  font-size: 26px;
+}
+
+.page-header h2 i {
+  margin-right: 8px;
+  color: #2563eb;
+}
+
+.date-badge {
+  background: #f1f5ff;
+  padding: 8px 15px;
+  border-radius: 8px;
+  color: #2563eb;
+  font-size: 14px;
+}
+
+.date-badge i {
+  margin-right: 5px;
+}
+
+/* ================= BATCH SELECTOR ================= */
+.batch-selector {
+  background: white;
+  padding: 15px 22px;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+  margin-bottom: 25px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.batch-selector label {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.batch-dropdown {
+  padding: 8px 15px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  font-size: 14px;
+  min-width: 250px;
+}
+
+/* ================= ATTENDANCE CARD ================= */
+.attendance-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  padding: 25px;
+}
+
+/* ================= ATTENDANCE TABLE ================= */
+.attendance-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.attendance-table th {
+  text-align: left;
+  padding: 15px 10px;
+  background: #f8fafc;
+  color: #1e293b;
+  font-weight: 600;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.attendance-table td {
+  padding: 15px 10px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+/* ================= BADGES ================= */
+.badge {
+  padding: 5px 12px;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 500;
+  display: inline-block;
+}
+
+.badge.present {
+  background: #d1fae5;
+  color: #065f46;
+}
+
+.badge.absent {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* ================= ACTION BUTTONS ================= */
+.btn-present, .btn-absent {
+  padding: 5px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  background: white;
+  font-size: 12px;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.btn-present i, .btn-absent i {
+  margin-right: 3px;
+}
+
+.btn-present:hover {
+  background: #d1fae5;
+  border-color: #10b981;
+}
+
+.btn-absent:hover {
+  background: #fee2e2;
+  border-color: #ef4444;
+}
+
+/* ================= SAVE BUTTON ================= */
+.save-section {
+  text-align: right;
+  margin-top: 25px;
+  padding-top: 20px;
+  border-top: 1px solid #eef2f6;
+}
+
+.save-btn {
+  background: #2563eb;
+  color: white;
+  padding: 12px 30px;
+  border-radius: 8px;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.save-btn:hover {
+  background: #1d4ed8;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .sidebar {
+    width: 100%;
+  }
+
+  .main-content {
+    padding: 20px;
+  }
+
+  .page-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+
+  .batch-selector {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .batch-dropdown {
+    width: 100%;
+  }
+
+  .attendance-table {
+    display: block;
+    overflow-x: auto;
+  }
+
+  .save-section {
+    text-align: center;
+  }
+}

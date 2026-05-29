@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Notes | Cricket CRM</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="../../css/dashboard.css">
+  <style>
+    .card { background: white; border-radius: 16px; padding: 25px; margin-bottom: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+    .form-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+    .form-grid input, .form-grid select, .form-grid textarea { width: 100%; padding: 8px 12px; border: 1px solid #e2e8f0; border-radius: 8px; }
+    .form-grid label { font-weight: 500; margin-bottom: 5px; display: block; color: #1e293b; }
+    
+    /* FIXED: Button styles - make them visible */
+    .btn-small {
+        background: #0a4da5;
+        border: none;
+        padding: 6px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        margin: 0 2px;
+        font-size: 12px;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        transition: all 0.2s ease;
+    }
+    .btn-small:hover {
+        background: #cbd5e1;
+        transform: translateY(-1px);
+    }
+    
+    .delete-note {
+        background: #db1d1d;
+        border: none;
+        color: #fffefe;
+        padding: 6px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        margin-left: 5px;
+        font-size: 12px;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        transition: all 0.2s ease;
+    }
+    .delete-note:hover {
+        background: #fecaca;
+        color: #b91c1c;
+        transform: translateY(-1px);
+    }
+    
+    .badge { padding: 5px 12px; border-radius: 20px; font-size: 12px; display: inline-block; }
+    .badge-success { background: #10b981; color: white; }
+    .badge-primary { background: #3b82f6; color: white; }
+    .badge-warning { background: #f59e0b; color: white; }
+    
+    .note-card { 
+        border-bottom: 1px solid #e2e8f0; 
+        padding: 20px; 
+        margin-bottom: 15px;
+        background: #f8fafc;
+        border-radius: 12px;
+        transition: all 0.2s ease;
+    }
+    .note-card:hover {
+        background: #f1f5f9;
+        transform: translateX(5px);
+    }
+    .note-card:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    
+    .note-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 12px;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .note-title-section {
+        flex: 1;
+    }
+    
+    .note-title-section h4 {
+        margin: 0 0 5px 0;
+        color: #1e293b;
+        font-size: 18px;
+    }
+    
+    .note-actions {
+        display: flex;
+        gap: 8px;
+        white-space: nowrap;
+    }
+    
+    .filter-section { display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap; align-items: flex-end; }
+    .filter-section select { padding: 8px 12px; border: 1px solid #e2e8f0; border-radius: 8px; min-width: 150px; }
+    
+    .btn-primary { background: #2563eb; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; margin-top: 15px; }
+    .btn-primary:hover { background: #1d4ed8; }
+    
+    .btn-secondary { background: #64748b; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; margin-left: 10px; }
+    .btn-secondary:hover { background: #475569; }
+    
+    .note-player {
+        font-size: 13px;
+        color: #64748b;
+        margin-bottom: 10px;
+    }
+    
+    .note-content {
+        color: #334155;
+        line-height: 1.5;
+        margin-bottom: 10px;
+    }
+    
+    .note-date {
+        font-size: 11px;
+        color: #94a3b8;
+        margin-top: 10px;
+    }
+    
+    @media (max-width: 768px) {
+        .note-header {
+            flex-direction: column;
+        }
+        .note-actions {
+            width: 100%;
+            justify-content: flex-end;
+        }
+    }
+    .notes-list-container {
+        max-height: 600px;
+        overflow-y: auto;
+        padding-right: 5px;
+    }
+    
+    .notes-list-container::-webkit-scrollbar {
+        width: 6px;
+    }
+    
+    .notes-list-container::-webkit-scrollbar-track {
+        background: #e2e8f0;
+        border-radius: 3px;
+    }
+    
+    .notes-list-container::-webkit-scrollbar-thumb {
+        background: #94a3b8;
+        border-radius: 3px;
+    }
+</style>
+</head>
+<body>
+
+<div class="dashboard-container">
+  <div class="sidebar">
+    <h2>Cricket CRM</h2>
+    <p class="role">Coach Panel</p>
+    <a href="coach_dashboard.html"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+    <a href="coach_players.html"><i class="fa-solid fa-users"></i> My Players</a>
+    <a href="coach_attendance.html"><i class="fa-solid fa-calendar-check"></i> Attendance</a>
+    <a href="coach_performance.html"><i class="fa-solid fa-chart-simple"></i> Performance</a>
+    <a href="coach_notes.html" class="active"><i class="fa-solid fa-pen"></i> Notes</a>
+    <a href="coach_profile.html"><i class="fa-solid fa-user"></i> Profile</a>
+    <a href="coach_schedule.html"><i class="fa-solid fa-calendar-day"></i> Schedule</a>
+    <a href="#" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+  </div>
+
+  <div class="main-content">
+    <div class="page-header d-flex justify-content-between align-items-center">
+      <h2><i class="fa-solid fa-pen"></i> Match & Practice Notes</h2>
+    </div>
+
+    <!-- Add Note Form -->
+    <div class="card">
+      <h3><i class="fa-solid fa-pen-to-square"></i> Add New Note</h3>
+      <form id="addNoteForm">
+        <div class="form-grid">
+          <div>
+            <label>Note Type</label>
+            <select id="noteType">
+              <option value="Practice Session">Practice Session</option>
+              <option value="Match Report">Match Report</option>
+              <option value="Player Observation">Player Observation</option>
+            </select>
+          </div>
+          <div>
+            <label>Date</label>
+            <input type="date" id="noteDate">
+          </div>
+          <div>
+            <label>Related Player (Optional)</label>
+            <select id="playerId">
+              <option value="">All Players</option>
+            </select>
+          </div>
+          <div style="grid-column: span 2;">
+            <label>Title *</label>
+            <input type="text" id="noteTitle" placeholder="Enter note title" required>
+          </div>
+          <div style="grid-column: span 2;">
+            <label>Notes *</label>
+            <textarea id="noteContent" rows="4" placeholder="Enter detailed notes..." required></textarea>
+          </div>
+        </div>
+        <button type="button" class="btn-primary" onclick="saveNote()"><i class="fa-solid fa-save"></i> Save Note</button>
+        <button type="button" class="btn-secondary" onclick="resetForm()" style="background: #64748b; color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; margin-left: 10px;"><i class="fa-solid fa-undo"></i> Reset</button>
+      </form>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="card">
+      <h3><i class="fa-solid fa-filter"></i> Filter Notes</h3>
+      <div class="filter-section">
+        <select id="filterPlayer">
+          <option value="">All Players</option>
+        </select>
+        <select id="filterType">
+          <option value="">All Types</option>
+          <option value="Practice Session">Practice Session</option>
+          <option value="Match Report">Match Report</option>
+          <option value="Player Observation">Player Observation</option>
+        </select>
+        <button class="btn-small" onclick="loadNotes()"><i class="fa-solid fa-search"></i> Apply Filter</button>
+        <button class="btn-small" onclick="resetFilters()"><i class="fa-solid fa-times"></i> Clear Filters</button>
+      </div>
+    </div>
+
+    <!-- Recent Notes List -->
+    <div class="card">
+      <h3><i class="fa-solid fa-clock"></i> Recent Notes</h3>
+      <div id="notesList" class="flex-column">
+        <div class="text-center text-muted">Loading notes...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../../js/coach/coach_common.js"></script>
+<script src="../../js/coach/coach_notes.js"></script>
+</body>
+</html>

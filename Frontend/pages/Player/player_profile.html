@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Profile | Cricket CRM</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/players.css">
+    <style>
+        .profile-header-section {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        
+        .profile-name {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1e293b;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        
+        .profile-email {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+        
+        /* Batch Badge Styles - Fixed for all screen sizes */
+        .batch-info {
+            text-align: center;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+        
+        .batch-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+            white-space: nowrap;
+        }
+        
+        .timing-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+            white-space: nowrap;
+        }
+        
+        .no-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #e2e8f0;
+            color: #64748b;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+        }
+        
+        /* Responsive styles for smaller screens */
+        @media (max-width: 768px) {
+            .profile-name {
+                font-size: 22px;
+            }
+            
+            .batch-info {
+                gap: 10px;
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            
+            .batch-badge, .timing-badge, .no-badge {
+                padding: 6px 15px;
+                font-size: 12px;
+                white-space: normal;
+                word-break: break-word;
+                text-align: center;
+                max-width: 100%;
+            }
+            
+            .info-row {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .info-label {
+                width: 100%;
+            }
+        }
+        
+        /* For very small screens (mobile) */
+        @media (max-width: 480px) {
+            .batch-badge, .timing-badge, .no-badge {
+                padding: 5px 12px;
+                font-size: 11px;
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .batch-info {
+                flex-direction: column;
+                gap: 8px;
+            }
+            
+            .info-card {
+                padding: 15px;
+            }
+        }
+        
+        .form-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+        
+        .info-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+        }
+        
+        .info-card h5 {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e2e8f0;
+            color: #1e293b;
+        }
+        
+        .form-card h5 {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e2e8f0;
+            color: #1e293b;
+        }
+        
+        .readonly-field {
+            background-color: #f1f5f9;
+            cursor: not-allowed;
+        }
+        
+        .btn-update {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 8px;
+            font-weight: 500;
+            width: 100%;
+            transition: transform 0.2s;
+        }
+        
+        .btn-update:hover {
+            transform: translateY(-2px);
+            color: white;
+        }
+        
+        .btn-edit {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 8px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        
+        .btn-edit:hover {
+            background: #1d4ed8;
+        }
+        
+        .btn-cancel {
+            background: #64748b;
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 8px;
+            font-weight: 500;
+            width: 100%;
+            transition: transform 0.2s;
+        }
+        
+        .btn-cancel:hover {
+            background: #475569;
+        }
+        
+        .info-row {
+            display: flex;
+            margin-bottom: 12px;
+            padding: 8px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        
+        .info-label {
+            width: 130px;
+            font-weight: 600;
+            color: #475569;
+        }
+        
+        .info-value {
+            flex: 1;
+            color: #1e293b;
+        }
+        
+        .edit-mode {
+            display: none;
+        }
+        
+        .view-mode {
+            display: block;
+        }
+        
+        .attendance-badge {
+            background: #dbeafe;
+            color: #1e40af;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 500;
+            display: inline-block;
+        }
+        
+    </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+    <div class="sidebar">
+        <h2>Cricket CRM</h2>
+        <div class="brand-sub">Player Panel</div>
+        <a href="player_dashboard.html"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+        <a href="player_profile.html" class="active"><i class="fa-solid fa-user"></i> My Profile</a>
+        <a href="player_payments.html"><i class="fa-solid fa-credit-card"></i> My Payments</a>
+        <a href="player_attendance.html"><i class="fa-solid fa-calendar-check"></i> Attendance</a>
+        <a href="#" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <h2><i class="fa-solid fa-user"></i> My Profile</h2>
+            <div class="welcome-text" id="welcomeText">Welcome, Player!</div>
+        </div>
+
+        <!-- Profile Header Section (No Avatar) -->
+        <div class="profile-header-section">
+            <div class="profile-name" id="playerName">Player Name</div>
+            <div class="profile-email" id="playerEmail">email@example.com</div>
+            
+            <!-- Batch and Timing Info -->
+            <div class="batch-info" id="batchInfo">
+                <span id="batchBadge" class="no-badge">
+                    <i class="fa-solid fa-layer-group"></i> Batch: Loading...
+                </span>
+                <span id="timeBadge" class="no-badge">
+                    <i class="fa-regular fa-clock"></i> Timing: --
+                </span>
+            </div>
+        </div>
+
+        <!-- Detailed Info Card (View Mode) -->
+        <div id="viewMode" class="info-card view-mode">
+            <h5><i class="fa-solid fa-circle-info"></i> Player Information</h5>
+            <div class="info-row">
+                <div class="info-label"><i class="fa-solid fa-user"></i> Full Name:</div>
+                <div class="info-value" id="viewFullName">-</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label"><i class="fa-solid fa-envelope"></i> Email:</div>
+                <div class="info-value" id="viewEmail">-</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label"><i class="fa-solid fa-phone"></i> Phone:</div>
+                <div class="info-value" id="viewPhone">-</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label"><i class="fa-solid fa-calendar"></i> Date of Birth:</div>
+                <div class="info-value" id="viewDob">-</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label"><i class="fa-solid fa-cake-candles"></i> Age:</div>
+                <div class="info-value" id="viewAge">-</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label"><i class="fa-solid fa-bat"></i> Playing Role:</div>
+                <div class="info-value" id="viewRole">-</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label"><i class="fa-solid fa-location-dot"></i> Address:</div>
+                <div class="info-value" id="viewAddress">-</div>
+            </div>
+            <div class="info-row">
+                <div class="info-label"><i class="fa-solid fa-chart-simple"></i> Attendance:</div>
+                <div class="info-value"><span class="attendance-badge" id="viewAttendance">0%</span></div>
+            </div>
+            <div class="info-row">
+                <div class="info-label"><i class="fa-solid fa-calendar-check"></i> Member Since:</div>
+                <div class="info-value" id="viewJoined">-</div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script src="../../js/player/player_common.js"></script>
+<script src="../../js/player/player_profile.js"></script>
+</body>
+</html>

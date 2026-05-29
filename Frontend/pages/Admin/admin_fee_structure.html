@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fee Structure | Cricket CRM - Admin</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/admin.css">
+    <style>
+        /* Only modal styles - rest comes from admin.css */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 550px;
+            max-width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+        .close-btn {
+            cursor: pointer;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .close-btn:hover {
+            color: red;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #333;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .btn-save {
+            background: #2563eb;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        .btn-save:hover {
+            background: #1d4ed8;
+        }
+        .tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #e2e8f0;
+        }
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-weight: 500;
+            color: #64748b;
+        }
+        .tab.active {
+            color: #2563eb;
+            border-bottom: 2px solid #2563eb;
+            margin-bottom: -2px;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .toast-notification {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 2001;
+            animation: slideIn 0.3s ease;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .toast-notification.success { background: #10b981; color: white; }
+        .toast-notification.error { background: #ef4444; color: white; }
+        .toast-notification.info { background: #3b82f6; color: white; }
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        .custom-confirm-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        .custom-confirm-modal {
+            background: white;
+            border-radius: 12px;
+            width: 400px;
+            max-width: 90%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: modalSlideIn 0.3s ease;
+        }
+        @keyframes modalSlideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .custom-confirm-header {
+            padding: 20px 24px;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .custom-confirm-header.warning { background: #ef4444; color: white; }
+        .custom-confirm-header.info { background: #3b82f6; color: white; }
+        .custom-confirm-header i { font-size: 24px; }
+        .custom-confirm-header h3 { margin: 0; font-size: 18px; font-weight: 600; }
+        .custom-confirm-body { padding: 24px; font-size: 16px; color: #1e293b; line-height: 1.5; }
+        .custom-confirm-footer {
+            padding: 16px 24px;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+        .custom-confirm-btn {
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+        }
+        .custom-confirm-btn-cancel { background: #e2e8f0; color: #475569; }
+        .custom-confirm-btn-cancel:hover { background: #cbd5e1; }
+        .custom-confirm-btn-confirm { background: #ef4444; color: white; }
+        .custom-confirm-btn-confirm:hover { background: #dc2626; }
+        .custom-confirm-btn-confirm.info { background: #3b82f6; }
+        .custom-confirm-btn-confirm.info:hover { background: #2563eb; }
+    </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+    <div class="sidebar">
+        <h2>Cricket CRM</h2>
+        <div class="brand-sub">Admin Panel</div>
+        <a href="admin_dashboard.html"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+        <a href="admin_users.html"><i class="fa-solid fa-users"></i> Users</a>
+        <a href="admin_player.html"><i class="fa-solid fa-person-running"></i> Players</a>
+        <a href="admin_coaches.html"><i class="fa-solid fa-user-tie"></i> Coaches</a>
+        <a href="admin_batches.html"><i class="fa-solid fa-layer-group"></i> Batches</a>
+        <a href="admin_fee_structure.html" class="active"><i class="fa-solid fa-indian-rupee-sign"></i> Fee Structure</a>
+        <a href="admin_payment.html"><i class="fa-solid fa-credit-card"></i> Payments</a>
+        <a href="admin_reports.html"><i class="fa-solid fa-file-pdf"></i> Reports</a>
+        <a href="#" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <h2><i class="fa-solid fa-indian-rupee-sign"></i> Fee Structure Configuration</h2>
+            <button class="add-btn" onclick="showAddFeeModal()">
+                <i class="fa-solid fa-plus"></i> Add Fee Structure
+            </button>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="showTab('batch-fees', event)">Batch Fees</button>
+            <button class="tab" onclick="showTab('discounts', event)">Discounts & Scholarships</button>
+            <button class="tab" onclick="showTab('late-fees', event)">Late Fee Policy</button>
+        </div>
+
+        <!-- Batch Fees Tab -->
+        <div id="batch-fees" class="tab-content active">
+            <div class="table-card">
+                <h5><i class="fa-solid fa-layer-group"></i> Batch-wise Fee Structure</h5>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Batch Name</th>
+                                <th>Timing</th>
+                                <th>Monthly Fee</th>
+                                <th>Yearly Fee</th>
+                                <th>Registration Fee</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </thead>
+                        <tbody id="feeStructureTable">
+                            <tr><td colspan="7" class="text-center">Loading...<\/td><\/tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Discounts & Scholarships Tab -->
+        <div id="discounts" class="tab-content">
+            <div class="table-card">
+                <h5><i class="fa-solid fa-tag"></i> Discounts & Scholarships</h5>
+                <button class="add-btn" style="margin-bottom: 15px;" onclick="showAddDiscountModal()">
+                    <i class="fa-solid fa-plus"></i> Add Discount
+                </button>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Discount Type</th>
+                                <th>Eligibility</th>
+                                <th>Percentage</th>
+                                <th>Max Amount</th>
+                                <th>Valid From</th>
+                                <th>Valid To</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </thead>
+                        <tbody id="discountsTable">
+                            <tr><td colspan="8" class="text-center">Loading...<\/td><\/tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Late Fee Policy Tab -->
+        <div id="late-fees" class="tab-content">
+            <div class="table-card">
+                <h5><i class="fa-solid fa-clock"></i> Late Fee Policy</h5>
+                <button class="add-btn" style="margin-bottom: 15px;" onclick="showAddLateFeeModal()">
+                    <i class="fa-solid fa-plus"></i> Add Late Fee Rule
+                </button>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Days Delayed</th>
+                                <th>Late Fee Amount</th>
+                                <th>Action</th>
+                            </thead>
+                        <tbody id="lateFeeTable">
+                            <tr><td colspan="3" class="text-center">Loading...<\/td><\/tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- FEE STRUCTURE MODAL -->
+<div id="feeModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="feeModalTitle">Add Fee Structure</h3>
+            <span class="close-btn" onclick="closeModal('feeModal')">&times;</span>
+        </div>
+        <form id="feeForm" novalidate>
+            <input type="hidden" id="feeId">
+            <input type="hidden" id="editBatchId">
+            
+            <div id="addBatchField" class="form-group">
+                <label>Batch Name *</label>
+                <input type="text" id="batchNameInput" placeholder="Enter batch name">
+                <small>Enter the exact batch name as shown in Batch Management</small>
+            </div>
+            
+            <div id="editBatchField" class="form-group" style="display: none;">
+                <label>Batch Name</label>
+                <input type="text" id="batchNameDisplay" readonly disabled style="background: #f3f4f6;">
+            </div>
+            
+            <div class="form-group">
+                <label>Monthly Fee (₹)</label>
+                <input type="number" id="monthlyFee" placeholder="Enter monthly fee" value="0" step="0.01">
+            </div>
+            <div class="form-group">
+                <label>Yearly Fee (₹)</label>
+                <input type="number" id="yearlyFee" placeholder="Enter yearly fee" value="0" step="0.01">
+            </div>
+            <div class="form-group">
+                <label>Registration Fee (₹)</label>
+                <input type="number" id="registrationFee" placeholder="Enter registration fee" value="0" step="0.01">
+            </div>
+            <div class="form-group">
+                <label>Status</label>
+                <select id="feeStatus">
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                </select>
+            </div>
+            <button type="submit" class="btn-save">Save Fee Structure</button>
+        </form>
+    </div>
+</div>
+
+<!-- Add/Edit Discount Modal -->
+<div id="discountModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="discountModalTitle">Add Discount</h3>
+            <span class="close-btn" onclick="closeModal('discountModal')">&times;</span>
+        </div>
+        <form id="discountForm">
+            <input type="hidden" id="discountId" value="">
+            <div class="form-group">
+                <label>Discount Type *</label>
+                <input type="text" id="discountType" placeholder="e.g., Sibling Discount, Early Bird" required>
+            </div>
+            <div class="form-group">
+                <label>Eligibility Description</label>
+                <textarea id="eligibility" rows="2" placeholder="Describe who is eligible"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Percentage (%)</label>
+                <input type="number" id="discountPercentage" step="0.01" placeholder="e.g., 10">
+            </div>
+            <div class="form-group">
+                <label>Maximum Amount (₹)</label>
+                <input type="number" id="maxAmount" placeholder="Leave blank for no limit">
+            </div>
+            <div class="form-group">
+                <label>Valid From</label>
+                <input type="date" id="validFrom">
+            </div>
+            <div class="form-group">
+                <label>Valid To</label>
+                <input type="date" id="validTo">
+            </div>
+            <div class="form-group">
+                <label>Status</label>
+                <select id="discountStatus">
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                </select>
+            </div>
+            <button type="submit" class="btn-save">Save Discount</button>
+        </form>
+    </div>
+</div>
+
+<!-- Add/Edit Late Fee Modal -->
+<div id="lateFeeModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="lateFeeModalLabel">Add Late Fee Rule</h3>
+            <span class="close-btn" onclick="closeModal('lateFeeModal')">&times;</span>
+        </div>
+        <form id="lateFeeForm">
+            <input type="hidden" id="lateFeeId" value="">
+            <div class="form-group">
+                <label>Min Days *</label>
+                <input type="number" id="minDays" placeholder="e.g., 1" required>
+            </div>
+            <div class="form-group">
+                <label>Max Days (Optional)</label>
+                <input type="number" id="maxDays" placeholder="e.g., 7">
+                <small>Leave empty for "above min days"</small>
+            </div>
+            <div class="form-group">
+                <label>Late Fee Amount (₹) *</label>
+                <input type="number" id="lateFeeAmount" placeholder="Enter late fee amount" required>
+            </div>
+            <button type="submit" class="btn-save">Save Late Fee Rule</button>
+        </form>
+    </div>
+</div>
+
+<script src="../../js/admin/admin_common.js"></script>
+<script src="../../js/admin/admin_fee_structure.js"></script>
+</body>
+</html>

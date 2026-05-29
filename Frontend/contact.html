@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us | Cricket CRM - Academy Management System</title>
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/style.css">
+  
+  <style>
+    /* Fix for register button */
+    .register-btn {
+      background: #2563eb;
+      color: white;
+      padding: 8px 20px;
+      border-radius: 25px;
+      margin-left: 5px;
+    }
+    .register-btn:hover {
+      background: #1d4ed8;
+      color: white;
+    }
+    
+    /* Toast Notification Styles */
+    .toast-notification {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 12px 20px;
+      border-radius: 8px;
+      z-index: 9999;
+      animation: slideIn 0.3s ease;
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+    
+    .toast-notification.success {
+      background: #10b981;
+      color: white;
+    }
+    
+    .toast-notification.error {
+      background: #ef4444;
+      color: white;
+    }
+    
+    .toast-notification.info {
+      background: #3b82f6;
+      color: white;
+    }
+    
+    @keyframes slideIn {
+      from {
+        transform: translateX(100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    
+    /* Error message styles */
+    .error-message {
+      background: #fee2e2;
+      color: #dc2626;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    /* Form loading state */
+    .btn-primary.loading {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+    
+    .btn-primary i.fa-spinner {
+      margin-right: 8px;
+    }
+    
+    /* Form success highlight */
+    .form-group.success input,
+    .form-group.success select,
+    .form-group.success textarea {
+      border-color: #10b981;
+    }
+    
+    .form-group.error input,
+    .form-group.error select,
+    .form-group.error textarea {
+      border-color: #ef4444;
+    }
+    
+    /* Field validation hint */
+    .field-hint {
+      font-size: 12px;
+      color: #64748b;
+      margin-top: 5px;
+      display: block;
+    }
+    
+    .field-hint.error {
+      color: #ef4444;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="logo">
+        <i class="fa-solid fa-cricket"></i>
+        <span>Cricket<span>CRM</span></span>
+      </div>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html" class="active">Contact</a></li>
+        <li><a href="pages/Authentication/login.html" class="login-btn">Login</a></li>
+      </ul>
+      <button class="menu-toggle" id="menuToggle">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Page Header -->
+  <section class="page-header">
+    <div class="container">
+      <h1>Contact Us</h1>
+      <p>Get in touch with our team</p>
+    </div>
+  </section>
+
+  <!-- Contact Content -->
+  <section class="contact-content">
+    <div class="container">
+      <div class="contact-grid">
+        <!-- Contact Information -->
+        <div class="contact-info">
+          <h2>Get In Touch</h2>
+          <p>Have questions about Cricket CRM? We're here to help! Reach out to us through any of these channels.</p>
+          
+          <div class="info-item">
+            <i class="fa-solid fa-phone"></i>
+            <div>
+              <h4>Phone</h4>
+              <p>+91 9876543210</p>
+              <p>+91 9876543211</p>
+            </div>
+          </div>
+          
+          <div class="info-item">
+            <i class="fa-solid fa-envelope"></i>
+            <div>
+              <h4>Email</h4>
+              <p>info@cricketcrm.com</p>
+              <p>support@cricketcrm.com</p>
+            </div>
+          </div>
+          
+          <div class="info-item">
+            <i class="fa-solid fa-location-dot"></i>
+            <div>
+              <h4>Office Address</h4>
+              <p>123, Sports Complex, Andheri East,</p>
+              <p>Mumbai - 400093, Maharashtra, India</p>
+            </div>
+          </div>
+          
+          <div class="info-item">
+            <i class="fa-solid fa-clock"></i>
+            <div>
+              <h4>Business Hours</h4>
+              <p>Monday - Friday: 9:00 AM - 6:00 PM</p>
+              <p>Saturday: 10:00 AM - 4:00 PM</p>
+              <p>Sunday: Closed</p>
+            </div>
+          </div>
+          
+          <div class="social-links">
+            <h4>Follow Us</h4>
+            <div class="social-icons">
+              <a href="#"><i class="fab fa-facebook-f"></i></a>
+              <a href="#"><i class="fab fa-twitter"></i></a>
+              <a href="#"><i class="fab fa-instagram"></i></a>
+              <a href="#"><i class="fab fa-linkedin-in"></i></a>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Contact Form -->
+        <div class="contact-form">
+          <h2>Send Us a Message</h2>
+          <form id="contactForm">
+            <div class="form-group">
+              <label for="name">Full Name *</label>
+              <input type="text" id="name" name="name" required>
+              <span class="field-hint">Enter your full name</span>
+            </div>
+            
+            <div class="form-group">
+              <label for="email">Email Address *</label>
+              <input type="email" id="email" name="email" required>
+              <span class="field-hint">We'll never share your email</span>
+            </div>
+            
+            <div class="form-group">
+              <label for="phone">Phone Number</label>
+              <input type="tel" id="phone" name="phone" placeholder="10-digit mobile number">
+              <span class="field-hint">Optional - 10 digits only</span>
+            </div>
+            
+            <div class="form-group">
+              <label for="subject">Subject *</label>
+              <select id="subject" name="subject" required>
+                <option value="">Select a subject</option>
+                <option value="general">General Inquiry</option>
+                <option value="support">Technical Support</option>
+                <option value="sales">Sales & Pricing</option>
+                <option value="partnership">Partnership</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="message">Message *</label>
+              <textarea id="message" name="message" rows="5" required placeholder="Please describe your query in detail..."></textarea>
+              <span class="field-hint">Minimum 10 characters</span>
+            </div>
+            
+            <button type="submit" class="btn-primary">
+              <i class="fa-solid fa-paper-plane"></i> Send Message
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Map Section -->
+  <section class="map">
+    <div class="container">
+      <h2 class="section-title">Find Us Here</h2>
+      <div class="map-container">
+        <iframe 
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3770.898941936425!2d72.847723!3d19.119678!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3be7c9e7a7e7a7e7%3A0x7e7e7e7e7e7e7e7e!2sMumbai!5e0!3m2!1sen!2sin!4v1234567890!5m2!1sen!2sin" 
+          width="100%" 
+          height="400" 
+          style="border:0;" 
+          allowfullscreen="" 
+          loading="lazy">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="faq">
+    <div class="container">
+      <h2 class="section-title">Frequently Asked Questions</h2>
+      <div class="faq-grid">
+        <div class="faq-item">
+          <div class="faq-question">
+            <h3>How do I get started with Cricket CRM?</h3>
+            <i class="fa-solid fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Simply click on the "Register" button, fill in your details, and you'll have access to a free trial. No credit card required!</p>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            <h3>Is there a free trial available?</h3>
+            <i class="fa-solid fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Yes, we offer a 14-day free trial with full access to all features. No commitment required.</p>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            <h3>Can I cancel my subscription anytime?</h3>
+            <i class="fa-solid fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Yes, you can cancel your subscription at any time. There are no long-term contracts or cancellation fees.</p>
+          </div>
+        </div>
+        
+        <div class="faq-item">
+          <div class="faq-question">
+            <h3>Do you provide training and support?</h3>
+            <i class="fa-solid fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Yes, we provide onboarding training, documentation, and 24/7 customer support via email and chat.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>Cricket CRM</h3>
+        <p>Complete management solution for cricket academies</p>
+      </div>
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="pages/Authentication/login.html">Login</a></li>
+          <li><a href="pages/Authentication/register.html">Register</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Contact</h4>
+        <p><i class="fa-solid fa-phone"></i> +91 9876543210</p>
+        <p><i class="fa-solid fa-envelope"></i> info@cricketcrm.com</p>
+        <p><i class="fa-solid fa-location-dot"></i> Mumbai, India</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Cricket CRM. All rights reserved.</p>
+    </div>
+  </footer>
+
+<script>
+// API URL - Update this to your backend URL
+const API_URL = 'http://localhost:5000/api';
+
+// Mobile menu toggle
+document.addEventListener('DOMContentLoaded', function() {
+    const menuToggle = document.getElementById('menuToggle');
+    const navLinks = document.getElementById('navLinks');
+    
+    if (menuToggle && navLinks) {
+        menuToggle.addEventListener('click', function() {
+            navLinks.classList.toggle('show');
+        });
+    }
+    
+    // FAQ Accordion
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        if (question) {
+            question.addEventListener('click', () => {
+                // Close other FAQs
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item && otherItem.classList.contains('active')) {
+                        otherItem.classList.remove('active');
+                        const otherAnswer = otherItem.querySelector('.faq-answer');
+                        if (otherAnswer) otherAnswer.style.display = 'none';
+                    }
+                });
+                
+                // Toggle current FAQ
+                item.classList.toggle('active');
+                const answer = item.querySelector('.faq-answer');
+                if (answer) {
+                    answer.style.display = item.classList.contains('active') ? 'block' : 'none';
+                }
+            });
+        }
+    });
+    
+    // Contact Form with Validation
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        contactForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value.trim();
+            
+            // Clear previous errors
+            clearErrors();
+            
+            // Validation
+            let errors = [];
+            
+            if (!name) {
+                errors.push({ field: 'name', message: 'Full name is required' });
+            } else if (name.length < 2) {
+                errors.push({ field: 'name', message: 'Name must be at least 2 characters' });
+            }
+            
+            if (!email) {
+                errors.push({ field: 'email', message: 'Email address is required' });
+            } else if (!isValidEmail(email)) {
+                errors.push({ field: 'email', message: 'Please enter a valid email address' });
+            }
+            
+            if (phone && !isValidPhone(phone)) {
+                errors.push({ field: 'phone', message: 'Please enter a valid 10-digit phone number' });
+            }
+            
+            if (!subject) {
+                errors.push({ field: 'subject', message: 'Please select a subject' });
+            }
+            
+            if (!message) {
+                errors.push({ field: 'message', message: 'Message is required' });
+            } else if (message.length < 10) {
+                errors.push({ field: 'message', message: 'Message must be at least 10 characters' });
+            }
+            
+            // Show errors if any
+            if (errors.length > 0) {
+                showFormErrors(errors);
+                return;
+            }
+            
+            // Submit form
+            await submitContactForm({ name, email, phone, subject, message });
+        });
+    }
+});
+
+// Helper Functions
+function isValidEmail(email) {
+    const re = /^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/;
+    return re.test(email);
+}
+
+function isValidPhone(phone) {
+    const re = /^[0-9]{10}$/;
+    return re.test(phone);
+}
+
+function clearErrors() {
+    // Remove error messages
+    const errorMessages = document.querySelectorAll('.error-message');
+    errorMessages.forEach(el => el.remove());
+    
+    // Remove error class from form groups
+    const formGroups = document.querySelectorAll('.form-group');
+    formGroups.forEach(group => {
+        group.classList.remove('error');
+        group.classList.remove('success');
+    });
+}
+
+function showFormErrors(errors) {
+    errors.forEach(error => {
+        const field = document.getElementById(error.field);
+        const formGroup = field.closest('.form-group');
+        
+        // Add error class
+        formGroup.classList.add('error');
+        
+        // Update hint text
+        const hint = formGroup.querySelector('.field-hint');
+        if (hint) {
+            hint.classList.add('error');
+            hint.textContent = error.message;
+        }
+        
+        // Add error message if not exists
+        if (!formGroup.querySelector('.error-message')) {
+            const errorDiv = document.createElement('div');
+            errorDiv.className = 'error-message';
+            errorDiv.innerHTML = `<i class="fa-solid fa-exclamation-circle"></i> ${error.message}`;
+            formGroup.appendChild(errorDiv);
+        }
+    });
+    
+    // Scroll to first error
+    const firstError = document.querySelector('.form-group.error');
+    if (firstError) {
+        firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    
+    // Auto clear errors after 5 seconds
+    setTimeout(() => {
+        const errorMessages = document.querySelectorAll('.error-message');
+        errorMessages.forEach(el => el.remove());
+        const formGroups = document.querySelectorAll('.form-group.error');
+        formGroups.forEach(group => {
+            group.classList.remove('error');
+            const hint = group.querySelector('.field-hint');
+            if (hint) {
+                hint.classList.remove('error');
+                hint.textContent = hint.getAttribute('data-original') || getOriginalHint(group);
+            }
+        });
+    }, 5000);
+}
+
+function getOriginalHint(formGroup) {
+    const field = formGroup.querySelector('input, select, textarea');
+    if (field.id === 'name') return 'Enter your full name';
+    if (field.id === 'email') return "We'll never share your email";
+    if (field.id === 'phone') return 'Optional - 10 digits only';
+    if (field.id === 'message') return 'Minimum 10 characters';
+    return '';
+}
+
+async function submitContactForm(formData) {
+    const submitBtn = document.querySelector('#contactForm button[type="submit"]');
+    const originalText = submitBtn.innerHTML;
+    
+    // Show loading state
+    submitBtn.disabled = true;
+    submitBtn.classList.add('loading');
+    submitBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Sending...';
+    
+    try {
+        const response = await fetch(`${API_URL}/contact/submit`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        });
+        
+        const result = await response.json();
+        
+        if (response.ok) {
+            // Success
+            showToast('Thank you! Your message has been sent successfully. We will get back to you soon.', 'success');
+            document.getElementById('contactForm').reset();
+            
+            // Add success class to all fields
+            const formGroups = document.querySelectorAll('.form-group');
+            formGroups.forEach(group => {
+                group.classList.add('success');
+            });
+            
+            // Remove success class after 3 seconds
+            setTimeout(() => {
+                formGroups.forEach(group => {
+                    group.classList.remove('success');
+                });
+            }, 3000);
+        } else {
+            showToast(result.message || 'Failed to send message. Please try again.', 'error');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        showToast('Network error. Please check your connection and try again.', 'error');
+    } finally {
+        // Reset button
+        submitBtn.disabled = false;
+        submitBtn.classList.remove('loading');
+        submitBtn.innerHTML = originalText;
+    }
+}
+
+function showToast(message, type) {
+    // Remove existing toasts
+    const existingToasts = document.querySelectorAll('.toast-notification');
+    existingToasts.forEach(toast => toast.remove());
+    
+    const toast = document.createElement('div');
+    toast.className = `toast-notification ${type}`;
+    toast.innerHTML = `
+        <i class="fa-solid ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
+        <span>${message}</span>
+    `;
+    document.body.appendChild(toast);
+    
+    // Auto remove after 5 seconds
+    setTimeout(() => {
+        toast.remove();
+    }, 5000);
+}
+
+// Real-time validation on input
+document.addEventListener('DOMContentLoaded', function() {
+    const nameInput = document.getElementById('name');
+    const emailInput = document.getElementById('email');
+    const phoneInput = document.getElementById('phone');
+    const messageInput = document.getElementById('message');
+    
+    if (nameInput) {
+        nameInput.addEventListener('input', function() {
+            const formGroup = this.closest('.form-group');
+            if (this.value.trim().length >= 2) {
+                formGroup.classList.remove('error');
+                formGroup.classList.add('success');
+                const hint = formGroup.querySelector('.field-hint');
+                if (hint) {
+                    hint.classList.remove('error');
+                    hint.textContent = 'Looks good!';
+                }
+            } else {
+                formGroup.classList.remove('success');
+            }
+        });
+    }
+    
+    if (emailInput) {
+        emailInput.addEventListener('input', function() {
+            const formGroup = this.closest('.form-group');
+            if (isValidEmail(this.value.trim())) {
+                formGroup.classList.remove('error');
+                formGroup.classList.add('success');
+                const hint = formGroup.querySelector('.field-hint');
+                if (hint) {
+                    hint.classList.remove('error');
+                    hint.textContent = 'Valid email address';
+                }
+            } else {
+                formGroup.classList.remove('success');
+            }
+        });
+    }
+    
+    if (phoneInput) {
+        phoneInput.addEventListener('input', function() {
+            const formGroup = this.closest('.form-group');
+            if (!this.value.trim() || isValidPhone(this.value.trim())) {
+                formGroup.classList.remove('error');
+                if (this.value.trim()) {
+                    formGroup.classList.add('success');
+                    const hint = formGroup.querySelector('.field-hint');
+                    if (hint) {
+                        hint.classList.remove('error');
+                        hint.textContent = 'Valid phone number';
+                    }
+                }
+            } else {
+                formGroup.classList.remove('success');
+            }
+        });
+    }
+    
+    if (messageInput) {
+        messageInput.addEventListener('input', function() {
+            const formGroup = this.closest('.form-group');
+            if (this.value.trim().length >= 10) {
+                formGroup.classList.remove('error');
+                formGroup.classList.add('success');
+                const hint = formGroup.querySelector('.field-hint');
+                if (hint) {
+                    hint.classList.remove('error');
+                    hint.textContent = 'Message length is good';
+                }
+            } else {
+                formGroup.classList.remove('success');
+            }
+        });
+    }
+});
+</script>
+</body>
+</html>

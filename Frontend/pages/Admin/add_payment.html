@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Payment Management | Cricket CRM</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/admin.css">
+    <style>
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 550px;
+            max-width: 90%;
+            max-height: 80%;
+            overflow-y: auto;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        .close-btn {
+            cursor: pointer;
+            font-size: 24px;
+            color: #888;
+        }
+        .close-btn:hover {
+            color: #000;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .btn-save {
+            background: #2563eb;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+        }
+        .btn-save:hover {
+            background: #1d4ed8;
+        }
+        .badge-paid {
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+            color: #065f46;
+            border: 1px solid #6ee7b7;
+            border-radius: 30px;
+            padding: 5px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+        .badge-pending {
+            background: linear-gradient(135deg, #fef3c7, #fde68a);
+            color: #92400e;
+            border: 1px solid #fbbf24;
+            border-radius: 30px;
+            padding: 5px 12px;
+            font-size: 12px;
+            font-weight: 600;
+            display: inline-block;
+        }
+        .amount-cell {
+            font-weight: 600;
+            color: #1e293b;
+        }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <h2>Cricket CRM</h2>
+    <div class="brand-sub">Admin Panel</div>
+    <a href="admin_dashboard.html"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+    <a href="admin_users.html"><i class="fa-solid fa-users"></i> Users</a>
+    <a href="admin_player.html"><i class="fa-solid fa-person-running"></i> Players</a>
+    <a href="admin_coaches.html"><i class="fa-solid fa-user-tie"></i> Coaches</a>
+    <a href="admin_batches.html"><i class="fa-solid fa-layer-group"></i> Batches</a>
+    <a href="admin_fee_structure.html"><i class="fa-solid fa-indian-rupee-sign"></i> Fee Structure</a>
+    <a href="admin_payments.html" class="active"><i class="fa-solid fa-credit-card"></i> Payments</a>
+    <a href="admin_reports.html"><i class="fa-solid fa-file-pdf"></i> Reports</a>
+    <a href="#" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+</div>
+
+<div class="main-content">
+    <div class="header">
+        <h2><i class="fa-solid fa-credit-card"></i> Payment Management</h2>
+        <div class="header-actions" style="display: flex; gap: 10px; align-items: center;">
+            <input type="text" id="searchInput" class="form-control" placeholder="Search by player name..." style="width: 250px;">
+            <button class="add-btn" onclick="showAddPaymentModal()">
+                <i class="fa-solid fa-plus"></i> Add Payment
+            </button>
+        </div>
+    </div>
+
+    <div class="table-card">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Player Name</th>
+                    <th>Batch</th>
+                    <th>Amount (₹)</th>
+                    <th>Payment Date</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="paymentsTableBody">
+                <tr><td colspan="7" class="text-center">Loading...</td</tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Add/Edit Payment Modal -->
+<div id="paymentModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modalTitle">Add Payment</h3>
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+        </div>
+        <form id="paymentForm">
+            <input type="hidden" id="paymentId">
+            <div class="form-group">
+                <label>Player Name *</label>
+                <select id="player_id" required>
+                    <option value="">Select Player</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Amount (₹) *</label>
+                <input type="number" id="amount" required>
+            </div>
+            <div class="form-group">
+                <label>Payment Date *</label>
+                <input type="date" id="payment_date" required>
+            </div>
+            <div class="form-group">
+    <label>Payment Mode *</label>
+    <select id="payment_mode" required>
+        <option value="cash">Cash</option>
+        <option value="upi">UPI</option>
+        <option value="card">Card</option>
+        <option value="bank_transfer">Bank Transfer</option>
+    </select>
+</div>
+            <div class="form-group">
+                <label>Status *</label>
+                <select id="status" required>
+                    <option value="paid">Paid</option>
+                    <option value="pending">Pending</option>
+                </select>
+            </div>
+            <button type="submit" class="btn-save">Save Payment</button>
+        </form>
+    </div>
+</div>
+
+<script src="../../js/admin_common.js"></script>
+<script src="../../js/auth.js"></script>
+<script src="../../js/admin_payments.js"></script>
+</body>
+</html>

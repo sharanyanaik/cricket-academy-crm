@@ -1,0 +1,803 @@
+
+/* ================= RESET & GLOBAL ================= */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f0f2f5;
+}
+
+/* ================= SIDEBAR ================= */
+.sidebar {
+  width: 260px;
+  height: 100vh;
+  padding: 25px 15px;
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 0;
+  top: 0;
+  overflow-y: auto;
+  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+}
+
+.sidebar h2 {
+  color: white;
+  font-size: 24px;
+  font-weight: 600;
+  text-align: center;
+  margin: 0 0 5px 0;
+  letter-spacing: 0.5px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}
+
+.sidebar .brand-sub {
+  text-align: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.sidebar a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  padding: 12px 18px;
+  margin-bottom: 5px;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.sidebar a:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  padding-left: 22px;
+}
+
+.sidebar a.active {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  font-weight: 600;
+  border-left: 4px solid #ffd700;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.sidebar a i {
+  width: 24px;
+  text-align: center;
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.sidebar a.active i {
+  color: #ffd700;
+}
+
+.sidebar a:last-child {
+  margin-top: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding-top: 15px;
+}
+
+.sidebar a:last-child:hover {
+  background: rgba(239, 68, 68, 0.3);
+}
+
+/* ================= MAIN CONTENT ================= */
+.main-content {
+  position: relative;
+  margin-left: 260px;
+  padding: 30px;
+  min-height: 100vh;
+  background: #f0f2f5;
+}
+
+/* ================= HEADER ================= */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 28px;
+  margin-bottom: 30px;
+  background: white;
+  border-radius: 16px;  
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.header h2 {
+  font-size: 28px;
+  color: #1e293b;
+  font-weight: 600;
+  margin: 0;
+  display: flex;
+  align-items: center;
+}
+
+.header h2 i {
+  margin-right: 12px;
+  color: #2563eb;
+  font-size: 28px;
+  background: #eef2ff;
+  padding: 8px;
+  border-radius: 12px;
+}
+
+/* ================= BUTTON ================= */
+.add-btn {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+}
+
+.add-btn:hover {
+  background: linear-gradient(135deg, #1d4ed8, #1e3a8a);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(37, 99, 235, 0.4);
+}
+
+/* ================= TABLE CARD ================= */
+.table-card {
+  background: white;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  margin-bottom: 30px;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  transition: all 0.3s ease;
+}
+
+.table-card:hover {
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.table-card h5 {
+  margin: 0 0 20px 0;
+  color: #1e293b;
+  font-weight: 600;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+}
+
+.table-card h5 i {
+  margin-right: 10px;
+  color: #2563eb;
+  font-size: 24px;
+  background: #eef2ff;
+  padding: 8px;
+  border-radius: 10px;
+}
+
+/* ================= TABLE ================= */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 15px 12px;
+  text-align: left;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+th {
+  background: #f8fafc;
+  color: #1e293b;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+td {
+  color: #475569;
+  font-size: 14px;
+}
+
+tbody tr:hover {
+  background: #f1f5f9;
+}
+
+/* ================= BADGE STYLES ================= */
+.badge {
+  padding: 8px 18px; 
+  border-radius: 30px;
+  font-size: 13px;     
+  font-weight: 900;    
+  display: inline-block;
+  text-align: center;
+  white-space: nowrap;
+  letter-spacing: 0.5px;
+  min-width: 90px;   
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+  line-height: 1.4;    
+}
+
+/* Active/Success - Light green */
+.badge-active,
+.badge.bg-success,
+.bg-success {
+  background: linear-gradient(135deg, #d1fae5, #a7f3d0) ;
+  color: #065f46 ;
+  border: 1px solid #6ee7b7 ;
+  border-radius: 30px;
+  padding: 8px 18px ;  
+  font-size: 13px ;
+  min-width: 90px;
+}
+
+/* Inactive/Danger*/
+.badge-inactive,
+.badge.bg-danger,
+.bg-danger {
+  background: linear-gradient(135deg, #fee2e2, #fecaca) ;
+  color: #991b1b ;
+  border: 1px solid #f87171 ;
+  border-radius: 30px;
+  padding: 8px 18px;
+  font-size: 13px ;
+  min-width: 90px ;
+}
+
+/* Pending/Warning*/
+.badge-pending,
+.badge.bg-warning,
+.bg-warning {
+  background: linear-gradient(135deg, #fef3c7, #fde68a) ;
+  color: #92400e;
+  border: 1px solid #fbbf24 ;
+  border-radius: 30px;
+  padding: 8px 18px ;
+  font-size: 13px ;
+  min-width: 90px ;
+}
+
+/* Primary*/
+.badge.bg-primary,
+.bg-primary {
+  background: linear-gradient(135deg, #dbeafe, #bfdbfe) ;
+  color: #1e40af ;
+  border: 1px solid #93c5fd ;
+  border-radius: 30px;
+  padding: 8px 18px ;
+  font-size: 13px ;
+  min-width: 90px;
+}
+
+/* Secondary - Light gray */
+.badge.bg-secondary,
+.bg-secondary {
+  background: linear-gradient(135deg, #f1f5f9, #e2e8f0) ;
+  color: #475569 ;
+  border: 1px solid #cbd5e1;
+  border-radius: 30px;
+  padding: 8px 18px ;
+  font-size: 13px ;
+  min-width: 90px;
+}
+
+/* ================= BUTTON STYLES ================= */
+.btn-sm {
+  padding: 6px 16px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background: #2563eb;
+  color: white;
+}
+
+.btn-primary:hover {
+  background: #1d4ed8;
+}
+
+.btn-outline-primary {
+  background: transparent;
+  border: 2px solid #2563eb;
+  color: #2563eb;
+}
+
+.btn-outline-primary:hover {
+  background: #2563eb;
+  color: white;
+}
+
+.btn-warning {
+  background: #f59e0b;
+  color: white;
+}
+
+.btn-warning:hover {
+  background: #d97706;
+}
+
+.btn-danger {
+  background: #ef4444;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #dc2626;
+}
+
+/* ================= ACTION BUTTONS FIX ================= */
+.btn-warning.btn-sm,
+.btn-danger.btn-sm {
+  padding: 4px 8px ;
+  font-size: 12px ;
+  line-height: 1.4 ;
+  border-radius: 4px ;
+  min-width: 55px;
+  text-align: center;
+  font-weight: 500;
+}
+
+.btn-warning.btn-sm i,
+.btn-danger.btn-sm i {
+  font-size: 11px;
+  margin-right: 3px;
+}
+
+/* Desktop - side by side */
+@media (min-width: 769px) {
+  td .btn-warning.btn-sm,
+  td .btn-danger.btn-sm {
+    display: inline-flex ;
+    margin-right: 5px;
+    vertical-align: middle;
+  }
+  
+  td .btn-danger.btn-sm:last-child {
+    margin-right: 0;
+  }
+}
+
+/* Mobile*/
+@media (max-width: 768px) {
+  td .btn-warning.btn-sm,
+  td .btn-danger.btn-sm {
+    display: block ;
+    width: 100% ;
+    margin: 4px 0 ;
+    padding: 6px 8px ;
+    font-size: 12px ;
+  }
+  
+  td:last-child {
+    min-width: 90px;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 480px) {
+  td .btn-warning.btn-sm,
+  td .btn-danger.btn-sm {
+    padding: 5px 6px ;
+    font-size: 11px ;
+  }
+}
+
+/* Fix action column width */
+td:last-child {
+  white-space: nowrap;
+  min-width: 120px;
+}
+
+/* ================= SEARCH BAR ================= */
+.input-group {
+  display: flex;
+  align-items: center;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.input-group:focus-within {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.input-group-text {
+  padding: 12px 15px;
+  background: white;
+  color: #64748b;
+  border: none;
+}
+
+.form-control {
+  flex: 1;
+  padding: 12px 15px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+}
+
+.form-control:focus {
+  border-color: #2563eb;
+}
+
+/* ================= VIEW BUTTON ================= */
+.view-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  background: #2563eb;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  border: none;
+  cursor: pointer;
+}
+
+.view-btn:hover {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+}
+
+.view-btn i {
+  margin-right: 5px;
+}
+
+/* ================= RESPONSIVE - TABLET ================= */
+@media (max-width: 992px) {
+  .sidebar {
+    width: 220px;
+  }
+  
+  .main-content {
+    margin-left: 220px;
+  }
+  
+  .header h2 {
+    font-size: 24px;
+  }
+}
+/* ==================== FLOATING ACTION BUTTON (FAB) ==================== */
+/* Add this to the end of your admin.css file */
+
+.fab-container {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 9999;
+}
+
+.fab-button {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.fab-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+}
+
+.fab-button i {
+    font-size: 24px;
+}
+
+.fab-menu {
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    min-width: 220px;
+    display: none;
+    overflow: hidden;
+    z-index: 10000;
+}
+
+.fab-menu.show {
+    display: block;
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fab-menu a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    color: #1e293b;
+    text-decoration: none;
+    transition: background 0.2s;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.fab-menu a:hover {
+    background: #f1f5f9;
+}
+
+.fab-menu a:last-child {
+    border-bottom: none;
+}
+
+.fab-menu i {
+    width: 20px;
+    color: #2563eb;
+}
+
+.unread-dot {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #ef4444;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+/* Quick Message Modal */
+.quick-message-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 10001;
+    justify-content: center;
+    align-items: center;
+}
+
+.quick-message-modal.show {
+    display: flex;
+}
+
+.quick-message-content {
+    background: white;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 500px;
+    padding: 25px;
+    animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.quick-message-content h3 {
+    margin-bottom: 20px;
+    color: #1e293b;
+}
+
+.quick-message-content .form-control {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.quick-message-content .form-control:focus {
+    outline: none;
+    border-color: #2563eb;
+}
+
+.quick-message-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.btn-secondary {
+    background: #e2e8f0;
+    color: #1e293b;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #1d4ed8, #1e3a8a);
+}
+
+/* Responsive for mobile */
+@media (max-width: 768px) {
+    .fab-container {
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    .fab-button {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .fab-button i {
+        font-size: 20px;
+    }
+    
+    .fab-menu {
+        min-width: 180px;
+    }
+    
+    .fab-menu a {
+        padding: 10px 14px;
+        font-size: 13px;
+    }
+}
+
+/* ================= RESPONSIVE - MOBILE ================= */
+@media (max-width: 768px) {
+  .sidebar {
+    width: 100%;
+    height: auto;
+    position: relative;
+    flex-direction: column;
+    padding: 15px;
+  }
+  
+  .sidebar h2 {
+    font-size: 22px;
+  }
+  
+  .sidebar .brand-sub {
+    margin-bottom: 15px;
+  }
+  
+  .sidebar a {
+    width: 100%;
+    justify-content: flex-start;
+    padding: 12px 18px;
+  }
+  
+  .main-content {
+    margin-left: 0;
+    padding: 20px;
+  }
+  
+  /* Stack header elements */
+  .header {
+    flex-direction: column;
+    gap: 15px;
+    padding: 18px;
+  }
+  
+  .header h2 {
+    font-size: 24px;
+    text-align: center;
+  }
+  
+  .add-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  /* Fix table background */
+  .table-card {
+    padding: 15px;
+    overflow-x: auto;
+  }
+  
+  /* Make table scrollable */
+  .table-card table {
+    min-width: 600px;
+  }
+  
+  .input-group {
+    width: 100%;
+  }
+}
+
+/* ================= VERY SMALL SCREENS ================= */
+@media (max-width: 480px) {
+  .main-content {
+    padding: 15px;
+  }
+  
+  .header h2 {
+    font-size: 20px;
+  }
+  
+  .table-card {
+    padding: 12px;
+  }
+  
+  .table-card table {
+    min-width: 500px;
+  }
+  
+  th, td {
+    padding: 10px 8px;
+    font-size: 12px;
+  }
+  
+  .sidebar a {
+    padding: 10px 15px;
+    font-size: 14px;
+  }
+}

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Player Performance | Cricket CRM</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="../../css/dashboard.css">
+  <style>
+    .add-btn { background: #2563eb; color: white; border: none; padding: 8px 16px; border-radius: 8px; cursor: pointer; }
+    .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 1000;
+        justify-content: center;
+        align-items: center;
+    }
+    .modal-content {
+        background: white;
+        border-radius: 12px;
+        width: 500px;
+        max-width: 90%;
+        padding: 25px;
+        max-height: 80%;
+        overflow-y: auto;
+    }
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+    .close-btn {
+        cursor: pointer;
+        font-size: 24px;
+        color: #666;
+    }
+    .form-group {
+        margin-bottom: 15px;
+    }
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 500;
+    }
+    .form-group input, .form-group select, .form-group textarea {
+        width: 100%;
+        padding: 8px 12px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+    }
+    .btn-save {
+        background: #10b981;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        width: 100%;
+    }
+    .btn-save:hover {
+        background: #059669;
+    }
+    .btn-sm {
+        padding: 4px 8px;
+        font-size: 12px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    .btn-warning {
+        background: #f59e0b;
+        color: white;
+        border: none;
+    }
+    .btn-danger {
+        background: #ef4444;
+        color: white;
+        border: none;
+    }
+    .search-box {
+        padding: 6px 12px;
+        border: 1px solid #e2e8f0;
+        border-radius: 6px;
+        width: 250px;
+    }
+    .table-card {
+        background: white;
+        border-radius: 16px;
+        padding: 20px;
+        margin-bottom: 25px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    .search-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+  <div class="sidebar">
+    <h2>Cricket CRM</h2>
+    <p class="role">Coach Panel</p>
+    <a href="coach_dashboard.html"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+    <a href="coach_players.html"><i class="fa-solid fa-users"></i> My Players</a>
+    <a href="coach_attendance.html"><i class="fa-solid fa-calendar-check"></i> Attendance</a>
+    <a href="coach_performance.html" class="active"><i class="fa-solid fa-chart-simple"></i> Performance</a>
+    <a href="coach_notes.html"><i class="fa-solid fa-pen"></i> Notes</a>
+    <a href="coach_profile.html"><i class="fa-solid fa-user"></i> Profile</a>
+    <a href="coach_schedule.html"><i class="fa-solid fa-calendar-day"></i> Schedule</a>
+    <a href="#" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+  </div>
+
+  <div class="main-content">
+    <div class="page-header d-flex justify-content-between align-items-center">
+      <h2><i class="fa-solid fa-chart-simple"></i> Player Performance</h2>
+      <button class="add-btn" onclick="openPerformanceModal()"><i class="fa-solid fa-plus"></i> Add Evaluation</button>
+    </div>
+
+    <!-- Performance Summary Table -->
+    <div class="table-card">
+      <h5><i class="fa-solid fa-cricket-ball"></i> Performance Summary</h5>
+      <div style="overflow-x: auto;">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Player Name</th>
+              <th>Matches</th>
+              <th>Total Runs</th>
+              <th>Total Wickets</th>
+              <th>Batting Avg</th>
+              <th>Bowling Avg</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="performanceBody">
+            <tr><td colspan="7" class="text-center">Loading...<\/td><\/tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Individual Evaluations Table with Search -->
+    <div class="table-card">
+      <div class="search-section">
+        <h5><i class="fa-solid fa-list"></i> Individual Performance Evaluations</h5>
+        <input type="text" id="searchInput" class="search-box" placeholder="Search by player name...">
+      </div>
+      <div style="overflow-x: auto;">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Player Name</th>
+              <th>Date</th>
+              <th>Match Type</th>
+              <th>Runs</th>
+              <th>Wickets</th>
+              <th>Catches</th>
+              <th>Comments</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="evaluationsBody">
+            <tr><td colspan="8" class="text-center">Loading...<\/td><\/tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Performance Modal -->
+<div id="performanceModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3>Add Performance Evaluation</h3>
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+    </div>
+    <form id="performanceForm">
+      <div class="form-group">
+        <label>Select Player *</label>
+        <select id="player_id" class="form-control" required></select>
+      </div>
+      <div class="form-group">
+        <label>Match Date *</label>
+        <input type="date" id="match_date" class="form-control" required>
+      </div>
+      <div class="form-group">
+        <label>Match Type</label>
+        <select id="match_type" class="form-control">
+          <option value="Practice">Practice</option>
+          <option value="Tournament">Tournament</option>
+          <option value="Friendly">Friendly</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Runs</label>
+        <input type="number" id="runs" class="form-control" value="0">
+      </div>
+      <div class="form-group">
+        <label>Wickets</label>
+        <input type="number" id="wickets" class="form-control" value="0">
+      </div>
+      <div class="form-group">
+        <label>Catches</label>
+        <input type="number" id="catches" class="form-control" value="0">
+      </div>
+      <div class="form-group">
+        <label>Coach Comments</label>
+        <textarea id="coach_comments" class="form-control" rows="3"></textarea>
+      </div>
+      <button type="button" class="btn-save" onclick="saveEvaluation()">Save Evaluation</button>
+    </form>
+  </div>
+</div>
+
+<script src="../../js/coach/coach_common.js"></script>
+<script src="../../js/coach/coach_performance.js"></script>
+</body>
+</html>

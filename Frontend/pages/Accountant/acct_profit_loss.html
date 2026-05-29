@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profit & Loss Statement | Cricket CRM</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/account.css">
+    <style>
+        .badge-success {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+        .badge-danger {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+        .balance-positive {
+            color: #10b981;
+            font-weight: 600;
+        }
+        .balance-negative {
+            color: #ef4444;
+            font-weight: 600;
+        }
+        .filter-section {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 1px solid #e2e8f0;
+        }
+        .btn-export {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .btn-export:hover {
+            background: #059669;
+        }
+        .btn-print {
+            background: #64748b;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .btn-print:hover {
+            background: #475569;
+        }
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 5px;
+            display: block;
+            color: #1e293b;
+        }
+        .form-control, .form-select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+        }
+        .btn-save {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .btn-save:hover {
+            background: linear-gradient(135deg, #1d4ed8, #1e3a8a);
+        }
+        .profit-card {
+            background: #f0f9ff;
+            border-radius: 16px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        .progress-bar-custom {
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 4px;
+            margin-top: 15px;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #2563eb);
+            border-radius: 4px;
+            width: 0%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>Cricket <span>CRM</span></h2>
+            <p class="role">Accountant Panel</p>
+        </div>
+        <div class="sidebar-menu">
+            <a href="accountant_dashboard.html">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="acct_feecollection.html">
+                <i class="fa-solid fa-money-bill"></i>
+                <span>Fee Collection</span>
+            </a>
+            <a href="acct_expenses.html">
+                <i class="fa-solid fa-receipt"></i>
+                <span>Expenses</span>
+            </a>
+            <a href="acct_ledger.html">
+                <i class="fa-solid fa-book"></i>
+                <span>Ledger</span>
+            </a>
+            <a href="acct_profit_loss.html" class="active">
+                <i class="fa-solid fa-chart-simple"></i>
+                <span>P&L</span>
+            </a>
+            <a href="acct_bal_sheet.html">
+                <i class="fa-solid fa-scale-balanced"></i>
+                <span>Balance Sheet</span>
+            </a>
+            <a href="acct_tax_report.html">
+                <i class="fa-solid fa-file-invoice-dollar"></i>
+                <span>Tax Reports</span>
+            </a>
+            <a href="#" id="logoutBtn">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="page-header">
+            <h2><i class="fa-solid fa-chart-simple"></i> Profit & Loss Statement</h2>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn-export" onclick="exportPL()">
+                    <i class="fa-solid fa-download"></i> Export
+                </button>
+               <button class="btn-print" onclick="printProfitLoss()">
+    <i class="fa-solid fa-print"></i> Print
+</button>
+            </div>
+        </div>
+
+        <!-- Period Selector - Updated -->
+<div class="filter-section">
+    <h5 style="margin-bottom: 15px;"><i class="fa-solid fa-calendar"></i> Select Period</h5>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+        <div>
+            <label class="form-label">Period Type</label>
+            <select id="periodType" class="form-select">
+                <option value="monthly">Monthly</option>
+                <option value="quarterly">Quarterly</option>
+                <option value="yearly">Yearly</option>
+            </select>
+        </div>
+        <div id="monthDiv">
+            <label class="form-label">Month</label>
+            <select id="monthSelect" class="form-select">
+                <!-- Months will be populated by JS -->
+            </select>
+        </div>
+        <div id="quarterDiv" style="display: none;">
+            <label class="form-label">Quarter</label>
+            <select id="quarterSelect" class="form-select">
+                <!-- Quarters will be populated by JS -->
+            </select>
+        </div>
+        <div id="yearDiv">
+            <label class="form-label">Year</label>
+            <select id="yearSelect" class="form-select">
+                <!-- Years will be populated by JS -->
+            </select>
+        </div>
+        <div style="display: flex; align-items: flex-end;">
+            <button class="btn-save" onclick="loadProfitLoss()">
+                <i class="fa-solid fa-rotate"></i> Load Report
+            </button>
+        </div>
+    </div>
+</div>
+
+        <!-- Summary Stats -->
+        <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr);">
+            <div class="stat-card" style="border-left: 4px solid #10b981;">
+                <h3 id="totalIncome" style="color: #10b981;">₹0</h3>
+                <p>Total Income</p>
+            </div>
+            <div class="stat-card" style="border-left: 4px solid #ef4444;">
+                <h3 id="totalExpenses" style="color: #ef4444;">₹0</h3>
+                <p>Total Expenses</p>
+            </div>
+            <div class="stat-card" style="border-left: 4px solid #2563eb;">
+                <h3 id="netProfit" style="color: #2563eb;">₹0</h3>
+                <p>Net Profit</p>
+            </div>
+        </div>
+
+        <!-- Income Section -->
+        <div class="table-card">
+            <h5><i class="fa-solid fa-circle-arrow-up" style="color: #10b981;"></i> Income / Revenue</h5>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Particulars</th>
+                            <th>Amount (₹)</th>
+                            <th>% of Income</th>
+                        </tr>
+                    </thead>
+                    <tbody id="incomeTableBody">
+                        <tr><td colspan="3" class="text-center">Loading...</td</tr
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Expenses Section -->
+        <div class="table-card">
+            <h5><i class="fa-solid fa-circle-arrow-down" style="color: #ef4444;"></i> Expenses</h5>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Particulars</th>
+                            <th>Amount (₹)</th>
+                            <th>% of Income</th>
+                        </tr>
+                    </thead>
+                    <tbody id="expensesTableBody">
+                        <tr><td colspan="3" class="text-center">Loading...</td</tr
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Net Profit Section -->
+        <div class="profit-card">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h4 style="color: #1e293b; margin-bottom: 5px;">Net Profit</h4>
+                    <p style="color: #64748b; font-size: 14px;" id="periodText">For the period</p>
+                </div>
+                <div style="text-align: right;">
+                    <h2 id="netProfitLarge" style="color: #2563eb; font-size: 36px;">₹0</h2>
+                    <p id="profitMargin" class="balance-positive">Profit Margin: 0%</p>
+                </div>
+            </div>
+            <div class="progress-bar-custom">
+                <div id="profitProgressBar" class="progress-fill" style="width: 0%;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../../js/Accountant/accountant_common.js"></script>
+<script src="../../js/Accountant/accountant_profitloss.js"></script>
+</body>
+</html>

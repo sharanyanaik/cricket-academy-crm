@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Attendance | Cricket CRM</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/players.css">
+    <style>
+        /* Header Card Styles */
+        .header-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px 25px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+        .header-card h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #1e293b;
+        }
+        .header-card h2 i {
+            color: #3b82f6;
+        }
+        .header-card .player-name {
+            font-size: 14px;
+            background: #f1f5f9;
+            padding: 8px 16px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #475569;
+        }
+        .header-card .player-name i {
+            font-size: 14px;
+            color: #64748b;
+        }
+        
+        /* Stats Cards Grid - Responsive */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .stats-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            text-align: center;
+            transition: transform 0.2s;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* Blue accent line on top */
+        .stats-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #60a5fa);
+        }
+        
+        .stats-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        
+        .stats-number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #1e293b;
+        }
+        
+        .stats-label {
+            font-size: 13px;
+            color: #64748b;
+            margin-top: 5px;
+            font-weight: 500;
+        }
+        
+        /* Different colors for different stats */
+        .stats-card.total .stats-number { color: #3b82f6; }
+        .stats-card.present .stats-number { color: #10b981; }
+        .stats-card.absent .stats-number { color: #ef4444; }
+        .stats-card.late .stats-number { color: #f59e0b; }
+        .stats-card.percent .stats-number { color: #8b5cf6; }
+        
+        /* Progress Bar */
+        .progress-container {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .progress-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 13px;
+            color: #64748b;
+        }
+        
+        .progress-bar-container {
+            background: #e2e8f0;
+            border-radius: 10px;
+            height: 8px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #059669);
+            width: 0%;
+            transition: width 0.5s ease;
+            border-radius: 10px;
+        }
+        
+        /* Table Card */
+        .table-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+        
+        .table-card h4 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #1e293b;
+            margin: 0;
+        }
+        
+        .table-card h4 i {
+            color: #3b82f6;
+            margin-right: 8px;
+        }
+        
+        .search-box {
+            padding: 8px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            width: 250px;
+            font-size: 13px;
+        }
+        
+        .search-box:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+        
+        /* Badges */
+        .badge-present {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 500;
+            display: inline-block;
+        }
+        .badge-absent {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 500;
+            display: inline-block;
+        }
+        .badge-late {
+            background: #fed7aa;
+            color: #9a3412;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 500;
+            display: inline-block;
+        }
+        
+        /* Table Styles */
+        .table {
+            margin-bottom: 0;
+        }
+        .table th {
+            font-weight: 600;
+            font-size: 13px;
+            color: #475569;
+            border-bottom: 1px solid #e2e8f0;
+            padding: 12px 8px;
+        }
+        .table td {
+            font-size: 13px;
+            color: #334155;
+            padding: 12px 8px;
+            vertical-align: middle;
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .table tr:hover {
+            background: #f8fafc;
+        }
+        
+        /* ===== RESPONSIVE STYLES ===== */
+        
+        /* Tablet (768px - 1024px) - 3 cards per row */
+        @media (max-width: 1024px) and (min-width: 769px) {
+            .stats-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 15px;
+            }
+            
+            .stats-number {
+                font-size: 28px;
+            }
+        }
+        
+        /* Small Tablet (600px - 768px) - 2 cards per row */
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 15px;
+            }
+            
+            .stats-number {
+                font-size: 24px;
+            }
+            
+            .header-card {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .search-box {
+                width: 100%;
+            }
+            
+            .d-flex {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .table th, .table td {
+                padding: 8px 6px;
+                font-size: 12px;
+            }
+        }
+        
+        /* Mobile (below 600px) - 1 card per row */
+        @media (max-width: 600px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            
+            .stats-number {
+                font-size: 28px;
+            }
+            
+            .stats-card {
+                padding: 15px;
+            }
+            
+            .table-card {
+                padding: 15px;
+            }
+            
+            .header-card {
+                padding: 15px;
+            }
+            
+            .header-card h2 {
+                font-size: 1.2rem;
+            }
+        }
+        
+        /* Desktop (above 1200px) - 5 cards per row */
+        @media (min-width: 1200px) {
+            .stats-grid {
+                grid-template-columns: repeat(5, 1fr);
+                gap: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+    <div class="sidebar">
+        <h2>Cricket CRM</h2>
+        <div class="brand-sub">Player Panel</div>
+        <a href="player_dashboard.html"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+        <a href="player_profile.html"><i class="fa-solid fa-user"></i> My Profile</a>
+        <a href="player_payments.html"><i class="fa-solid fa-credit-card"></i> My Payments</a>
+        <a href="player_attendance.html" class="active"><i class="fa-solid fa-calendar-check"></i> Attendance</a>
+        <a href="#" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+    </div>
+
+    <div class="main-content">
+        <!-- Header Card with Title and Player Name -->
+        <div class="header-card">
+            <h2>
+                <i class="fa-solid fa-calendar-check"></i> 
+                My Attendance
+            </h2>
+            <div class="player-name" id="playerNameHeader">
+                <i class="fa-solid fa-user-circle"></i>
+                <span>Loading...</span>
+            </div>
+        </div>
+
+        <!-- Stats Cards Grid -->
+        <div class="stats-grid">
+            <div class="stats-card total">
+                <div class="stats-number" id="totalDays">0</div>
+                <div class="stats-label">Total Days</div>
+            </div>
+            <div class="stats-card present">
+                <div class="stats-number" id="presentDays">0</div>
+                <div class="stats-label">Present</div>
+            </div>
+            <div class="stats-card absent">
+                <div class="stats-number" id="absentDays">0</div>
+                <div class="stats-label">Absent</div>
+            </div>
+            <div class="stats-card late">
+                <div class="stats-number" id="lateDays">0</div>
+                <div class="stats-label">Late</div>
+            </div>
+            <div class="stats-card percent">
+                <div class="stats-number" id="attPercent">0%</div>
+                <div class="stats-label">Attendance %</div>
+            </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-label">
+                <span>Overall Attendance</span>
+                <span id="attPercentLabel">0%</span>
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar" id="attendanceProgressBar"></div>
+            </div>
+        </div>
+
+        <!-- Attendance Records Table -->
+        <div class="table-card">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4><i class="fa-solid fa-list"></i> Attendance Records</h4>
+                <input type="text" id="searchInput" class="search-box" placeholder="Search by date...">
+            </div>
+            
+            <div style="overflow-x: auto;">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody id="attendanceBody">
+                        <tr><td colspan="3" class="text-center">Loading...</td</tr
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../../js/player/player_common.js"></script>
+<script src="../../js/player/player_attendance.js"></script>
+</body>
+</html>

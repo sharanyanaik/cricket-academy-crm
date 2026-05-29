@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Fee Collection | Cricket CRM</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/account.css">
+    <style>
+        .form-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+            max-width: 900px;
+            margin: 0 auto 30px;
+            display: none;
+        }
+        .form-card.show {
+            display: block;
+        }
+        .form-card h3 {
+            color: #1e293b;
+            margin-bottom: 25px;
+            font-weight: 600;
+            border-left: 4px solid #2563eb;
+            padding-left: 15px;
+        }
+        .form-card h3 i {
+            color: #2563eb;
+            margin-right: 10px;
+        }
+        .form-label {
+            font-weight: 500;
+            color: #1e293b;
+            margin-bottom: 8px;
+        }
+        .form-control, .form-select {
+            border-radius: 10px;
+            border: 1px solid #e2e8f0;
+            padding: 10px 15px;
+            margin-bottom: 20px;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        .btn-save {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .btn-save:hover {
+            background: linear-gradient(135deg, #1d4ed8, #1e3a8a);
+        }
+        .btn-save:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .btn-add {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 20px;
+        }
+        .btn-add:hover {
+            background: linear-gradient(135deg, #1d4ed8, #1e3a8a);
+        }
+        .btn-cancel {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .btn-cancel:hover {
+            background: #5a6268;
+        }
+        .payment-table {
+            margin-top: 30px;
+        }
+        .payment-table {
+            display: block;
+        }
+        .payment-table.hide-records {
+            display: none;
+        }
+        .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>Cricket <span>CRM</span></h2>
+            <p class="role">Accountant Panel</p>
+        </div>
+        <div class="sidebar-menu">
+            <a href="accountant_dashboard.html">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="acct_feecollection.html" class="active">
+                <i class="fa-solid fa-money-bill"></i>
+                <span>Fee Collection</span>
+            </a>
+            <a href="acct_expenses.html">
+                <i class="fa-solid fa-receipt"></i>
+                <span>Expenses</span>
+            </a>
+            <a href="acct_ledger.html">
+                <i class="fa-solid fa-book"></i>
+                <span>Ledger</span>
+            </a>
+            <a href="acct_profit_loss.html">
+                <i class="fa-solid fa-chart-simple"></i>
+                <span>P&L</span>
+            </a>
+            <a href="acct_bal_sheet.html">
+                <i class="fa-solid fa-scale-balanced"></i>
+                <span>Balance Sheet</span>
+            </a>
+            <a href="acct_tax_report.html">
+                <i class="fa-solid fa-file-invoice-dollar"></i>
+                <span>Tax Reports</span>
+            </a>
+            <a href="#" id="logoutBtn">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="page-header">
+            <h2><i class="fa-solid fa-money-bill"></i> Fee Collection</h2>
+        </div>
+
+        <!-- Add Payment Button -->
+        <div class="header-actions">
+            <button class="btn-add" id="showAddFormBtn">
+                <i class="fa-solid fa-plus"></i> Add Payment
+            </button>
+        </div>
+
+        <!-- Payment Form Card (Hidden by default) -->
+        <div class="form-card" id="paymentFormCard">
+            <h3>
+                <i class="fa-solid fa-plus-circle"></i> Record Fee Payment
+            </h3>
+            
+            <form id="paymentForm">
+                <label class="form-label">Select Player *</label>
+                <select id="playerId" class="form-select" required>
+                    <option value="">-- Select Player --</option>
+                </select>
+
+                <label class="form-label">Amount *</label>
+                <input type="number" id="amount" class="form-control" placeholder="Enter amount" required>
+
+                <label class="form-label">Payment Mode *</label>
+                <select id="paymentMode" class="form-select" required>
+                    <option value="cash">Cash</option>
+                    <option value="upi">UPI</option>
+                    <option value="card">Card</option>
+                    <option value="bank_transfer">Bank Transfer</option>
+                </select>
+
+                <label class="form-label">Payment Date *</label>
+                <input type="date" id="paymentDate" class="form-control" required>
+
+                <label class="form-label">Status</label>
+                <select id="status" class="form-select">
+                    <option value="completed">Completed</option>
+                    <option value="pending">Pending</option>
+                </select>
+
+                <label class="form-label">Remarks (Optional)</label>
+                <input type="text" id="remarks" class="form-control" placeholder="Any remarks">
+
+                <div style="display: flex; gap: 10px;">
+                    <button type="submit" class="btn-save" id="saveBtn">
+                        <i class="fa-solid fa-save"></i> Save Payment
+                    </button>
+                    <button type="button" class="btn-cancel" id="cancelFormBtn">
+                        <i class="fa-solid fa-times"></i> Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Recent Payments Table (No Refresh Button) -->
+        <div class="table-card payment-table" id="paymentsContainer">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5 style="margin: 0; font-size: 18px; font-weight: 600; color: #1e293b;">
+                    <i class="fa-solid fa-clock-rotate-left" style="color: #2563eb;"></i> Recent Payments
+                </h5>
+                <!-- Refresh button removed -->
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Player</th>
+                            <th>Amount</th>
+                            <th>Mode</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recentPaymentsBody">
+                        <tr><td colspan="5" class="text-center">Loading...</td</tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../../js/accountant/accountant_common.js"></script>
+<script src="../../js/accountant/accountant_fee.js"></script>
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tax Reports | Cricket CRM</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/account.css">
+    <style>
+        .filter-section {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 1px solid #e2e8f0;
+        }
+        .btn-export {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .btn-export:hover { background: #059669; }
+        .btn-print {
+            background: #64748b;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .btn-print:hover { background: #475569; }
+        .btn-save {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .btn-save:hover { background: linear-gradient(135deg, #1d4ed8, #1e3a8a); }
+        .tax-card {
+            background: white;
+            border-radius: 16px;
+            padding: 25px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border: 1px solid #e2e8f0;
+        }
+        .tax-card h3 {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .bg-green { border-left: 4px solid #10b981; }
+        .bg-red { border-left: 4px solid #ef4444; }
+        .bg-blue { border-left: 4px solid #2563eb; }
+        .bg-orange { border-left: 4px solid #f59e0b; }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .stats-grid {
+                grid-template-columns: 1fr !important;
+                gap: 15px;
+            }
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start !important;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>Cricket <span>CRM</span></h2>
+            <p class="role">Accountant Panel</p>
+        </div>
+        <div class="sidebar-menu">
+            <a href="accountant_dashboard.html"><i class="fa-solid fa-chart-line"></i><span>Dashboard</span></a>
+            <a href="acct_feecollection.html"><i class="fa-solid fa-money-bill"></i><span>Fee Collection</span></a>
+            <a href="acct_expenses.html"><i class="fa-solid fa-receipt"></i><span>Expenses</span></a>
+            <a href="acct_ledger.html"><i class="fa-solid fa-book"></i><span>Ledger</span></a>
+            <a href="acct_profit_loss.html"><i class="fa-solid fa-chart-simple"></i><span>P&L</span></a>
+            <a href="acct_bal_sheet.html"><i class="fa-solid fa-scale-balanced"></i><span>Balance Sheet</span></a>
+            <a href="acct_tax_report.html" class="active"><i class="fa-solid fa-file-invoice-dollar"></i><span>Tax Reports</span></a>
+            <a href="#" id="logoutBtn">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="page-header">
+            <h2><i class="fa-solid fa-file-invoice-dollar"></i> Tax Reports</h2>
+            <div style="display: flex; gap: 10px;">
+                <button class="btn-export" onclick="exportTaxReport()"><i class="fa-solid fa-download"></i> Export</button>
+                <button class="btn-print" onclick="printTaxReport()"><i class="fa-solid fa-print"></i> Print</button>
+                <!-- Refresh button REMOVED -->
+            </div>
+        </div>
+
+        <!-- Income & Expenses Summary -->
+        <div class="stats-grid" style="grid-template-columns: repeat(2, 1fr);">
+            <div class="stat-card bg-green">
+                <h3 id="totalIncome">₹0</h3>
+                <p>Total Income</p>
+                <small>From all completed payments</small>
+            </div>
+            <div class="stat-card bg-red">
+                <h3 id="totalExpenses">₹0</h3>
+                <p>Total Expenses</p>
+                <small>From all expenses</small>
+            </div>
+        </div>
+
+        <!-- Tax Summary -->
+        <div class="stats-grid" style="grid-template-columns: repeat(3, 1fr);">
+            <div class="stat-card bg-blue">
+                <h3 id="taxableIncome">₹0</h3>
+                <p>Taxable Income</p>
+                <small>Income - Expenses</small>
+            </div>
+            <div class="stat-card bg-orange">
+                <h3 id="gstPayable">₹0</h3>
+                <p>GST Payable (18%)</p>
+                <small>On total income</small>
+            </div>
+            <div class="stat-card bg-red">
+                <h3 id="incomeTax">₹0</h3>
+                <p>Estimated Income Tax (30%)</p>
+                <small>On taxable income</small>
+            </div>
+        </div>
+
+        <!-- Total Tax Liability -->
+        <div class="tax-card" style="background: linear-gradient(135deg, #1e3a5f, #2563eb); color: white;">
+            <h3 id="totalTax" style="color: white;">₹0</h3>
+            <p style="color: #e2e8f0;">Total Tax Liability</p>
+            <small style="color: #94a3b8;">GST Payable + Income Tax</small>
+        </div>
+
+        <!-- GST Details -->
+        <div class="table-card" style="margin-top: 20px;">
+            <h5><i class="fa-solid fa-chart-simple"></i> GST Details</h5>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Particulars</th>
+                            <th style="text-align: right;">Amount (₹)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>GST Collected (18% of Income)</td>
+                            <td style="text-align: right;" id="gstCollected">₹0</td>
+                        </tr>
+                        <tr>
+                            <td>Less: Input Tax Credit (ITC)</td>
+                            <td style="text-align: right; color: #ef4444;" id="itcAmount">₹0</td>
+                        </tr>
+                        <tr style="background: #f1f5f9; font-weight: 700;">
+                            <td><strong>Net GST Payable</strong></td>
+                            <td style="text-align: right;"><strong id="netGSTPayable">₹0</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../../js/Accountant/accountant_common.js"></script>
+<script src="../../js/Accountant/accountant_taxreport.js"></script>
+</body>
+</html>

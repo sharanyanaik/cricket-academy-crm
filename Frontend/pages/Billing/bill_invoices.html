@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invoices | Cricket CRM - Billing</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/bill.css">
+    <style>
+        .filter-section {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 25px;
+            border: 1px solid #e2e8f0;
+        }
+        .badge-paid {
+            background: #d1fae5;
+            color: #065f46;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+        .badge-pending {
+            background: #fed7aa;
+            color: #92400e;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+        .badge-overdue {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+        }
+        .btn-view, .btn-remind, .btn-print {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px 8px;
+            border-radius: 6px;
+            margin: 0 2px;
+        }
+        .btn-view { color: #3b82f6; }
+        .btn-view:hover { background: #dbeafe; }
+        .btn-remind { color: #f59e0b; }
+        .btn-remind:hover { background: #fed7aa; }
+        .btn-print { color: #64748b; }
+        .btn-print:hover { background: #e2e8f0; }
+        .page-btn {
+            background: #e2e8f0;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 0 2px;
+        }
+        .page-btn.active {
+            background: #2563eb;
+            color: white;
+        }
+        .page-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        .add-btn {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .add-btn:hover {
+            background: linear-gradient(135deg, #1d4ed8, #1e3a8a);
+        }
+        .form-label {
+            font-weight: 500;
+            margin-bottom: 5px;
+            display: block;
+            color: #1e293b;
+        }
+        .form-control, .form-select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+        }
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-container {
+            background: white;
+            border-radius: 16px;
+            width: 500px;
+            max-width: 90%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-body {
+            padding: 20px;
+        }
+        .modal-footer {
+            padding: 20px;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>Cricket <span>CRM</span></h2>
+            <p class="role">Billing Panel</p>
+        </div>
+        <div class="sidebar-menu">
+            <a href="billing_dashboard.html"><i class="fa-solid fa-chart-line"></i><span>Dashboard</span></a>
+            <a href="bill_invoices.html" class="active"><i class="fa-solid fa-file-invoice"></i><span>Invoices</span></a>
+            <a href="bill_payments.html"><i class="fa-solid fa-credit-card"></i><span>Payments</span></a>
+            <a href="bill_outstanding.html"><i class="fa-solid fa-clock"></i><span>Outstanding</span></a>
+            <a href="bill_fee_billing.html"><i class="fa-solid fa-indian-rupee-sign"></i><span>Fee Billing</span></a>
+            <a href="bill_discounts.html"><i class="fa-solid fa-tag"></i><span>Discounts</span></a>
+            <a href="#" id="logoutBtn"><i class="fa-solid fa-right-from-bracket"></i><span>Logout</span></a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="page-header">
+            <h2><i class="fa-solid fa-file-invoice"></i> Invoices</h2>
+            <button class="add-btn" onclick="openGenerateModal()">
+                <i class="fa-solid fa-plus"></i> Generate Invoice
+            </button>
+        </div>
+
+        <!-- Filter Section -->
+        <div class="filter-section">
+            <h5 style="margin-bottom: 15px;"><i class="fa-solid fa-filter"></i> Filter Invoices</h5>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px;">
+                <div>
+                    <label class="form-label">Status</label>
+                    <select id="filterStatus" class="form-select" onchange="applyFilters()">
+                        <option value="all">All</option>
+                        <option value="paid">Paid</option>
+                        <option value="pending">Pending</option>
+                        <option value="overdue">Overdue</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="form-label">From Date</label>
+                    <input type="date" id="filterFromDate" class="form-control">
+                </div>
+                <div>
+                    <label class="form-label">To Date</label>
+                    <input type="date" id="filterToDate" class="form-control">
+                </div>
+                <div>
+                    <label class="form-label">Search</label>
+                    <input type="text" id="filterSearch" class="form-control" placeholder="Invoice # or Player name">
+                </div>
+                <div style="display: flex; align-items: flex-end;">
+                    <button class="btn btn-primary" onclick="applyFilters()">Apply Filters</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Invoices Table -->
+        <div class="table-card">
+            <h5><i class="fa-solid fa-list"></i> Invoice List</h5>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Invoice #</th>
+                            <th>Player</th>
+                            <th>Batch</th>
+                            <th>Month</th>
+                            <th>Amount</th>
+                            <th>Due Date</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="invoicesTableBody">
+                        <tr><td colspan="8" class="text-center">Loading...</td</tr
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="d-flex justify-content-between align-items-center mt-3">
+                <div class="text-muted small" id="paginationInfo">Showing 0 of 0 invoices</div>
+                <div id="paginationControls" style="display: flex; gap: 5px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Generate Invoice Modal -->
+<div id="generateModal" class="modal-overlay">
+    <div class="modal-container">
+        <div class="modal-header">
+            <h3><i class="fa-solid fa-plus-circle"></i> Generate New Invoice</h3>
+            <button onclick="closeGenerateModal()" style="background: none; border: none; font-size: 24px;">&times;</button>
+        </div>
+        <div class="modal-body">
+            <form id="generateInvoiceForm">
+                <label class="form-label">Select Player *</label>
+                <select id="invoicePlayerId" class="form-select" required>
+                    <option value="">-- Select Player --</option>
+                </select>
+
+                <label class="form-label">Amount *</label>
+                <input type="number" id="invoiceAmount" class="form-control" placeholder="Enter amount" required>
+
+                <label class="form-label">Payment Mode</label>
+                <select id="invoicePaymentMode" class="form-select">
+                    <option value="cash">Cash</option>
+                    <option value="upi">UPI</option>
+                    <option value="card">Card</option>
+                    <option value="bank_transfer">Bank Transfer</option>
+                </select>
+
+                <label class="form-label">Due Date *</label>
+                <input type="date" id="invoiceDueDate" class="form-control" required>
+
+                <label class="form-label">Remarks</label>
+                <textarea id="invoiceRemarks" class="form-control" rows="3" placeholder="Additional notes"></textarea>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-secondary" onclick="closeGenerateModal()">Cancel</button>
+            <button class="btn btn-primary" onclick="generateInvoice()">Generate Invoice</button>
+        </div>
+    </div>
+</div>
+
+<script src="../../js/billing/billing_common.js"></script>
+<script src="../../js/billing/bill_invoices.js"></script>
+</body>
+</html>

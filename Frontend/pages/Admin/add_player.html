@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add/Edit Player | Cricket CRM</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/add_admin.css">
+    
+    <style>
+        .form-card { background: white; padding: 30px; border-radius: 10px; margin-top: 20px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .btn-save { background: #2563eb; color: white; padding: 10px 25px; border: none; border-radius: 5px; cursor: pointer; }
+        .btn-save:hover { background: #1d4ed8; }
+        .btn-cancel { background: #6c757d; color: white; padding: 10px 25px; border: none; border-radius: 5px; text-decoration: none; display: inline-block; }
+        .btn-cancel:hover { background: #5a6268; color: white; }
+        .sidebar { width: 260px; background: #1e293b; color: white; position: fixed; height: 100%; padding: 20px; }
+        .main-content { margin-left: 260px; padding: 20px; }
+        .sidebar a { color: #cbd5e1; display: block; padding: 12px; text-decoration: none; margin-bottom: 5px; }
+        .sidebar a:hover, .sidebar a.active { background: #334155; color: white; border-radius: 8px; }
+        .header { margin-bottom: 20px; }
+    </style>
+</head>
+
+<body>
+<div class="sidebar">
+    <h2>Cricket CRM</h2>
+    <div class="brand-sub">Admin Panel</div>
+    <a href="admin_dashboard.html"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+    <a href="admin_player.html"><i class="fa-solid fa-users"></i> Players</a>
+    <a href="admin_coaches.html"><i class="fa-solid fa-user-tie"></i> Coaches</a>
+    <a href="admin_batches.html"><i class="fa-solid fa-layer-group"></i> Batches</a>
+    <a href="admin_payment.html"><i class="fa-solid fa-money-bill"></i> Payments</a>
+    <a href="#" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+</div>
+
+<div class="main-content">
+    <div class="header">
+        <h2><i class="fa-solid fa-user-plus me-2"></i><span id="formTitle">Add Player</span></h2>
+    </div>
+
+    <div class="form-card">
+        <form id="playerForm">
+            <input type="hidden" id="playerId">
+
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Full Name *</label>
+                    <input type="text" id="full_name" class="form-control" placeholder="Enter player name" required>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Email *</label>
+                    <input type="email" id="email" class="form-control" placeholder="Enter email" required>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Phone</label>
+                    <input type="text" id="phone" class="form-control" placeholder="Enter phone number">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Age</label>
+                    <input type="number" id="age" class="form-control" placeholder="Age">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Gender</label>
+                    <select id="gender" class="form-select">
+                        <option value="">Select</option>
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Parent Name</label>
+                    <input type="text" id="parent_name" class="form-control" placeholder="Enter parent name">
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Parent Phone</label>
+                    <input type="text" id="parent_phone" class="form-control" placeholder="Enter parent phone number">
+                </div>
+
+                <div class="col-md-12">
+                    <label class="form-label">Address</label>
+                    <textarea id="address" class="form-control" rows="2" placeholder="Enter address"></textarea>
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">Batch</label>
+                    <select id="batch_id" class="form-select">
+                        <option value="">Select Batch</option>
+                    </select>
+                </div>
+
+                <!-- ONLY THIS SECTION CHANGED - Now a dropdown to select coach -->
+                <div class="col-md-6">
+                    <label class="form-label">Assign Coach</label>
+                    <select id="coach_id" class="form-select">
+                        <option value="">Select Coach</option>
+                    </select>
+                    <small class="text-muted">Select coach from available coaches list</small>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Playing Role</label>
+                    <select id="playing_role" class="form-select">
+                        <option value="">Select Role</option>
+                        <option value="batsman">Batsman</option>
+                        <option value="bowler">Bowler</option>
+                        <option value="all-rounder">All-rounder</option>
+                        <option value="wicket-keeper">Wicket Keeper</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Joining Date</label>
+                    <input type="date" id="joining_date" class="form-control">
+                </div>
+
+                <div class="col-md-4">
+                    <label class="form-label">Status</label>
+                    <select id="status" class="form-select">
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mt-4 d-flex gap-2">
+                <button type="submit" class="btn-save">
+                    <i class="fa-solid fa-floppy-disk"></i> Save Player
+                </button>
+                <a href="admin_player.html" class="btn-cancel">
+                    <i class="fa-solid fa-xmark"></i> Cancel
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="../../js/admin/admin_common.js"></script>
+<script src="../../js/admin/admin_players.js"></script>
+</body>
+</html>

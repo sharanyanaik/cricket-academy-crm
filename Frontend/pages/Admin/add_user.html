@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Add User | Cricket CRM</title>
+
+  <!-- Bootstrap -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Font Awesome (icons) -->
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../../css/add_admin.css">
+</head>
+<body>
+
+<!--  SIDEBAR  -->
+<div class="sidebar">
+  <h2>Cricket CRM</h2>
+  <div class="brand-sub">Admin Panel</div>
+
+  <a href="admin_dashboard.html"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+  <a href="admin_users.html" class="active"><i class="fa-solid fa-user-gear"></i> Users</a>
+  <a href="admin_player.html"><i class="fa-solid fa-users"></i> Players</a>
+  <a href="admin_coaches.html"><i class="fa-solid fa-user-tie"></i> Coaches</a>
+  <a href="admin_batches.html"><i class="fa-solid fa-layer-group"></i> Batches</a>
+  <a href="admin_payment.html"><i class="fa-solid fa-money-bill"></i> Payments</a>
+  <a href="login.html"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+</div>
+
+<!--  MAIN CONTENT  -->
+<div class="main-content">
+
+  <!-- Header -->
+  <div class="header">
+    <h2><i class="fa-solid fa-user-plus me-2"></i>Add User</h2>
+  </div>
+
+  <!-- Form Card -->
+  <div class="form-card">
+
+    <form id="userForm">
+
+      <div class="row g-4">
+
+        <div class="col-md-6">
+          <label class="form-label">Full Name</label>
+          <input type="text" class="form-control" placeholder="Enter full name" required>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Email</label>
+          <input type="email" class="form-control" placeholder="Enter email" required>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Phone Number</label>
+          <input type="text" class="form-control" placeholder="Enter phone number" required>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Role</label>
+          <select class="form-select" required>
+            <option value="">Select Role</option>
+            <option>Admin</option>
+            <option>Coach</option>
+            <option>Player</option>
+          </select>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Username</label>
+          <input type="text" class="form-control" placeholder="Enter username" required>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Password</label>
+          <input type="password" class="form-control" placeholder="Enter password" required>
+        </div>
+
+        <div class="col-md-6">
+          <label class="form-label">Status</label>
+          <select class="form-select" required>
+            <option>Active</option>
+            <option>Inactive</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- Buttons -->
+      <div class="mt-4 d-flex gap-2">
+        <button type="submit" class="btn-save">
+          <i class="fa-solid fa-floppy-disk"></i> Save User
+        </button>
+
+        <a href="admin_users.html" class="btn-cancel">
+          <i class="fa-solid fa-xmark"></i> Cancel
+        </a>
+      </div>
+
+    </form>
+
+  </div>
+</div>
+
+</body>
+</html>

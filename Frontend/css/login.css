@@ -1,0 +1,286 @@
+/* RESET */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* BODY */
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+    url("../images/img7.jpg");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+}
+
+/* NAVBAR */
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 40px;
+  background: #ffffff;
+  position: relative;
+}
+
+/* LOGO */
+
+.logo {
+  display: flex;
+  align-items: center;
+  color: rgb(12, 10, 10);
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.logo img {
+  width: 40px;
+  margin-right: 10px;
+  border-radius: 50%;
+}
+
+.logo b {
+  color: #202a2d;
+}
+
+/* RIGHT SECTION */
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+/* CONTACT */
+
+.contact {
+  display: flex;
+  gap: 25px;
+  font-size: 14px;
+  color: #000000;
+}
+
+.contact span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s ease;
+  padding: 5px 8px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.contact i {
+  color: #1885ad;
+  transition: all 0.3s ease;
+}
+
+/* EMAIL -  Hover Effect */
+.email:hover {
+  color: #ff7e5f;
+  background: rgba(255, 126, 95, 0.15);
+  transform: translateX(5px);
+  box-shadow: 0 2px 8px rgba(255, 126, 95, 0.2);
+}
+
+.email:hover i {
+  color: #ff7e5f;
+  transform: scale(1.15) rotate(5deg);
+}
+
+/* PHONE - Hover Effect */
+.phone:hover {
+  color: #ff7e5f; 
+  background: rgba(93, 173, 226, 0.15);
+  transform: translateX(5px);
+  box-shadow: 0 2px 8px rgba(93, 173, 226, 0.2);
+}
+
+.phone:hover i {
+  color: #ff7e5f;
+  transform: scale(1.15) rotate(5deg);
+}
+/* NAV LINKS */
+
+nav {
+  display: flex;
+  gap: 25px;
+}
+
+nav a {
+  color: rgb(0, 0, 0);
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+nav a:hover {
+  color: #2ec7ff;
+}
+
+/* LOGIN SECTION */
+
+.login-section {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px 20px;
+}
+
+.login-page h2 {
+  color: #2ec7ff;
+}
+/* LOGIN CARD */
+
+.login-card {
+  width: 420px;
+  max-width: 95%;
+  padding: 40px;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.8);
+  text-align: center;
+}
+
+.login-card h2 {
+  color: #020202;
+  margin-bottom: 8px;
+}
+
+.login-card p {
+  margin-bottom: 25px;
+  color: #034252;
+}
+
+/* INPUTS */
+
+form input {
+  width: 100%;
+  padding: 13px;
+  margin-bottom: 18px;
+  border-radius: 8px;
+  background: #e8edea;
+  font-size: 14px;
+}
+
+form input:focus {
+  outline: none;
+  box-shadow: 0 0 8px #2ec7ff;
+}
+
+/* FORGOT */
+
+.forgot {
+  text-align: right;
+  margin-bottom: 18px;
+}
+
+.forgot a {
+  font-size: 13px;
+  color: #1c1f20;
+  font-weight: bolder;
+  text-decoration: none;
+}
+.forgot a:hover {
+  color: #751c1c;
+  text-decoration: underline;
+}
+
+/* BUTTON */
+button {
+  width: 100%;
+  padding: 13px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #2563eb, #1e3a8a);
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: linear-gradient(135deg, #2563eb, #1e3a8a);;
+  transform: scale(1.03);
+}
+
+/* REGISTER */
+
+.register {
+  margin-top: 20px;
+  font-size: 14px;
+  font-weight: bolder;
+}
+
+.register a {
+  color: linear-gradient(135deg, #2563eb, #1e3a8a);
+  text-decoration: none;
+}
+
+.register a:hover {
+  text-decoration: underline;
+}
+
+/* FOOTER */
+
+footer {
+  text-align: center;
+  padding: 12px;
+  background: #ffffff;
+  color: #0d0c0c;
+  font-size: 13px;
+  border-top: 1px solid #2ec7ff;
+}
+
+/* MOBILE */
+
+@media (max-width: 768px) {
+  /* Navbar structure */
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px 20px;
+    gap: 10px;
+  }
+
+  /* Right section */
+  .nav-right {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Contact left */
+  .contact {
+    flex-direction: column;
+    gap: 5px;
+    align-items: flex-start;
+  }
+
+  /* hover effects  */
+  .email:hover,
+  .phone:hover {
+    transform: translateX(3px);
+  }
+
+  /* Navigation links */
+  nav {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+  }
+
+  nav a {
+    padding: 5px 10px;
+  }
+}

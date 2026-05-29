@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Edit Profile | Cricket CRM</title>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="../css/coach_edit_profile.css">
+</head>
+<body>
+
+<div class="container">
+
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h2>Cricket CRM</h2>
+    <p class="role">Coach Panel</p>
+
+    <a href="coach_dashboard.html">
+      <i class="fa-solid fa-chart-line"></i> Dashboard
+    </a>
+
+    <a href="coach_players.html">
+      <i class="fa-solid fa-users"></i> My Players
+    </a>
+    
+    <a href="coach_attendance.html">
+      <i class="fa-solid fa-calendar-check"></i> Attendance
+    </a>
+
+    <a href="coach_profile.html" class="active">
+      <i class="fa-solid fa-user"></i> Profile
+    </a>
+
+    <a href="../login.html">
+      <i class="fa-solid fa-right-from-bracket"></i> Logout
+    </a>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+
+    <!-- Page Header-->
+    <div class="page-header">
+      <h2><i class="fa-solid fa-pen-to-square"></i> Edit Profile</h2>
+      <a href="coach_profile.html" class="cancel-btn">
+        <i class="fa-solid fa-xmark"></i> Cancel
+      </a>
+    </div>
+
+    <!-- Edit Profile Card -->
+    <div class="profile-card">
+
+      <!-- Profile Header-->
+      <div class="profile-header">
+        <div class="profile-img-wrapper">
+          <img src="https://ui-avatars.com/api/?name=Ravi+Kumar&size=100&background=2563eb&color=fff&bold=true&length=2" 
+               class="profile-img" 
+               alt="Coach Photo">
+          <label for="photo-upload" class="camera-icon">
+            <i class="fa-solid fa-camera"></i>
+          </label>
+          <input type="file" id="photo-upload" accept="image/*" style="display: none;">
+        </div>
+        <div class="profile-title">
+          <input type="text" class="edit-input" value="Mr. Ravi Kumar" placeholder="Full Name">
+          <select class="edit-select">
+            <option>Batting Coach</option>
+            <option>Bowling Coach</option>
+            <option>Fielding Coach</option>
+            <option>Head Coach</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Edit Form -->
+      <div class="profile-details">
+
+        <!-- Personal Information -->
+        <h4 class="section-title"><i class="fa-solid fa-user"></i> Personal Information</h4>
+        
+        <div class="details-grid">
+          <div class="detail-item">
+            <div class="detail-icon">
+              <i class="fa-regular fa-envelope"></i>
+            </div>
+            <div class="detail-content">
+              <div class="detail-label">Email</div>
+              <input type="email" class="edit-input" value="ravi@gmail.com">
+            </div>
+          </div>
+
+          <div class="detail-item">
+            <div class="detail-icon">
+              <i class="fa-regular fa-phone"></i>
+            </div>
+            <div class="detail-content">
+              <div class="detail-label">Phone</div>
+              <input type="text" class="edit-input" value="9876543210">
+            </div>
+          </div>
+
+          <div class="detail-item">
+            <div class="detail-icon">
+              <i class="fa-regular fa-venus-mars"></i>
+            </div>
+            <div class="detail-content">
+              <div class="detail-label">Gender</div>
+              <select class="edit-select">
+                <option selected>Male</option>
+                <option>Female</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="detail-item">
+            <div class="detail-icon">
+              <i class="fa-regular fa-calendar"></i>
+            </div>
+            <div class="detail-content">
+              <div class="detail-label">Date of Birth</div>
+              <input type="date" class="edit-input" value="1985-05-12">
+            </div>
+          </div>
+
+          <div class="detail-item">
+            <div class="detail-icon">
+              <i class="fa-solid fa-location-dot"></i>
+            </div>
+            <div class="detail-content">
+              <div class="detail-label">Address</div>
+              <input type="text" class="edit-input" value="Hyderabad, Telangana">
+            </div>
+          </div>
+        </div>
+
+        <!-- Professional Information -->
+        <h4 class="section-title"><i class="fa-solid fa-briefcase"></i> Professional Information</h4>
+        
+        <div class="details-grid">
+          <div class="detail-item">
+            <div class="detail-icon">
+              <i class="fa-solid fa-clock"></i>
+            </div>
+            <div class="detail-content">
+              <div class="detail-label">Experience (Years)</div>
+              <input type="number" class="edit-input" value="8">
+            </div>
+          </div>
+
+          <div class="detail-item">
+            <div class="detail-icon">
+              <i class="fa-solid fa-certificate"></i>
+            </div>
+            <div class="detail-content">
+              <div class="detail-label">Certification</div>
+              <input type="text" class="edit-input" value="BCCI Level 2">
+            </div>
+          </div>
+
+          <div class="detail-item">
+            <div class="detail-icon">
+              <i class="fa-regular fa-calendar-plus"></i>
+            </div>
+            <div class="detail-content">
+              <div class="detail-label">Joining Date</div>
+              <input type="date" class="edit-input" value="2020-01-10">
+            </div>
+          </div>
+
+          <div class="detail-item">
+            <div class="detail-icon">
+              <i class="fa-solid fa-layer-group"></i>
+            </div>
+            <div class="detail-content">
+              <div class="detail-label">Assigned Batches</div>
+              <div class="batch-checkboxes">
+                <label class="batch-checkbox">
+                  <input type="checkbox" checked> <i class="fa-solid fa-sun"></i> Morning
+                </label>
+                <label class="batch-checkbox">
+                  <input type="checkbox" checked> <i class="fa-solid fa-moon"></i> Evening
+                </label>
+                <label class="batch-checkbox">
+                  <input type="checkbox"> <i class="fa-solid fa-calendar-week"></i> Weekend
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Save Button -->
+        <div class="save-section">
+          <button class="save-btn"><i class="fa-solid fa-save"></i> Save Changes</button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- JavaScript for file input -->
+<script>
+  document.getElementById('photo-upload').addEventListener('change', function(e) {
+    if (e.target.files[0]) {
+      const reader = new FileReader();
+      reader.onload = function(event) {
+        document.querySelector('.profile-img').src = event.target.result;
+      };
+      reader.readAsDataURL(e.target.files[0]);
+    }
+  });
+</script>
+
+</body>
+</html>

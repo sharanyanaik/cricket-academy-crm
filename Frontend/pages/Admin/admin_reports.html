@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports | Cricket CRM - Admin</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="../../css/admin.css">
+    
+    <style>
+        /* Feature card styling */
+        .feature-card {
+            background: white;
+            padding: 25px;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+            text-align: center;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+            border-color: #2563eb;
+        }
+        
+        .feature-card i {
+            font-size: 40px;
+            color: #2563eb;
+            margin-bottom: 15px;
+        }
+        
+        .feature-card h3 {
+            margin: 10px 0;
+            font-size: 18px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+        
+        .feature-card p {
+            color: #64748b;
+            font-size: 13px;
+            margin: 0;
+        }
+        
+        /* User info bar */
+        .user-info {
+            background: white;
+            padding: 15px 25px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+        }
+        
+        .logout-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .logout-btn:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+        }
+        
+        /* Badge styling */
+        .badge {
+            padding: 5px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 600;
+            min-width: 80px;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .badge.bg-primary {
+            background: linear-gradient(135deg, #dbeafe, #bfdbfe) !important;
+            color: #1e40af !important;
+            border: 1px solid #93c5fd;
+        }
+        
+        .badge-action {
+            background: linear-gradient(135deg, #e0f2fe, #bae6fd);
+            color: #075985;
+            border: 1px solid #7dd3fc;
+            border-radius: 30px;
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: 500;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+    <div class="sidebar">
+        <h2>Cricket CRM</h2>
+        <div class="brand-sub">Admin Panel</div>
+        <a href="admin_dashboard.html"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+        <a href="admin_users.html"><i class="fa-solid fa-users"></i> Users</a>
+        <a href="admin_player.html"><i class="fa-solid fa-person-running"></i> Players</a>
+        <a href="admin_coaches.html"><i class="fa-solid fa-user-tie"></i> Coaches</a>
+        <a href="admin_batches.html"><i class="fa-solid fa-layer-group"></i> Batches</a>
+        <a href="admin_fee_structure.html"><i class="fa-solid fa-indian-rupee-sign"></i> Fee Structure</a>
+        <a href="admin_payment.html"><i class="fa-solid fa-credit-card"></i> Payments</a>
+        <a href="admin_reports.html" class="active"><i class="fa-solid fa-file-pdf"></i> Reports</a>
+        <a href="#" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+    </div>
+
+    <div class="main-content">
+        <div class="user-info">
+            <div>
+                <i class="fa-solid fa-user-circle"></i> 
+                Welcome, <strong id="userName">Admin</strong>
+                <span class="badge bg-primary ms-2" id="userRole">Admin</span>
+            </div>
+            <button class="logout-btn" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</button>
+        </div>
+
+        <div class="header">
+            <h2><i class="fa-solid fa-file-pdf"></i> Reports & Audit Logs</h2>
+        </div>
+
+        <div class="table-card">
+            <h5><i class="fa-solid fa-chart-line"></i> Report Categories</h5>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 20px;">
+                <div class="feature-card" onclick="loadFinancialReport()">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <h3>Financial Reports</h3>
+                    <p>Fee collection, expenses, revenue reports</p>
+                </div>
+                <div class="feature-card" onclick="loadAttendanceReport()">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    <h3>Attendance Reports</h3>
+                    <p>Player attendance, batch-wise summary</p>
+                </div>
+                <div class="feature-card" onclick="loadPerformanceReport()">
+                    <i class="fa-solid fa-chart-simple"></i>
+                    <h3>Performance Reports</h3>
+                    <p>Player performance, skill evaluation</p>
+                </div>
+                <div class="feature-card" onclick="loadAuditLogs()">
+                    <i class="fa-solid fa-history"></i>
+                    <h3>Audit Logs</h3>
+                    <p>User activity, system changes</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-card">
+            <h5><i class="fa-solid fa-clock"></i> Recent Audit Logs</h5>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Timestamp</th>
+                            <th>User</th>
+                            <th>Action</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody id="auditLogsBody">
+                        <tr><td colspan="5" class="text-center">Loading...</td</tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="../../js/admin/admin_common.js"></script>
+<script src="../../js/admin/admin_reports.js"></script>
+</body>
+</html>

@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Accountant Dashboard | Cricket CRM</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+</head>
+<body>
+
+<div class="dashboard-container">
+    <!-- Sidebar - Blue Theme -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h2>Cricket <span>CRM</span></h2>
+            <p class="role">Accountant Panel</p>
+        </div>
+        <div class="sidebar-menu">
+            <a href="accountant_dashboard.html" class="active">
+                <i class="fa-solid fa-chart-line"></i>
+                <span>Dashboard</span>
+            </a>
+            <a href="acct_feecollection.html">
+                <i class="fa-solid fa-money-bill"></i>
+                <span>Fee Collection</span>
+            </a>
+            <a href="acct_expenses.html">
+                <i class="fa-solid fa-receipt"></i>
+                <span>Expenses</span>
+            </a>
+            <a href="acct_ledger.html">
+                <i class="fa-solid fa-book"></i>
+                <span>Ledger</span>
+            </a>
+            <a href="acct_profit_loss.html">
+                <i class="fa-solid fa-chart-simple"></i>
+                <span>P&L</span>
+            </a>
+            <a href="acct_bal_sheet.html">
+                <i class="fa-solid fa-scale-balanced"></i>
+                <span>Balance Sheet</span>
+            </a>
+            <a href="acct_tax_report.html">
+                <i class="fa-solid fa-file-invoice-dollar"></i>
+                <span>Tax Reports</span>
+            </a>
+            <a href="#" id="logoutBtn">
+                <i class="fa-solid fa-right-from-bracket"></i>
+                <span>Logout</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="page-title">
+                <i class="fa-solid fa-chart-line"></i> Accountant Dashboard
+            </h2>
+            <i class="fa-solid fa-arrows-rotate refresh-btn" onclick="refreshData()"></i>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon" style="background: #d1fae5;">
+                    <i class="fa-solid fa-circle-dollar-to-slot" style="color: #10b981; font-size: 24px;"></i>
+                </div>
+                <h3 id="totalCollections">₹0</h3>
+                <p>Total Collections</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background: #fed7aa;">
+                    <i class="fa-solid fa-hourglass-half" style="color: #f59e0b; font-size: 24px;"></i>
+                </div>
+                <h3 id="pendingDues">₹0</h3>
+                <p>Pending Dues</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background: #fee2e2;">
+                    <i class="fa-solid fa-chart-line" style="color: #ef4444; font-size: 24px;"></i>
+                </div>
+                <h3 id="totalExpenses">₹0</h3>
+                <p>Total Expenses</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background: #dbeafe;">
+                    <i class="fa-solid fa-wallet" style="color: #3b82f6; font-size: 24px;"></i>
+                </div>
+                <h3 id="netBalance">₹0</h3>
+                <p>Net Balance</p>
+            </div>
+        </div>
+
+        <!-- Recent Collections Table --->
+        <div class="table-card">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h5><i class="fa-solid fa-clock-rotate-left"></i> Recent Collections</h5>
+                <!-- View All button removed -->
+            </div>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Player</th>
+                            <th>Amount</th>
+                            <th>Mode</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="recentCollectionsBody">
+                        <td><td colspan="6" class="text-center">Loading...</td\( ">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Payment Details Modal -->
+<div id="paymentDetailModal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center;">
+    <div style="background: white; border-radius: 12px; width: 450px; max-width: 90%;">
+        <div style="padding: 15px 20px; border-bottom: 1px solid #ddd; display: flex; justify-content: space-between; align-items: center;">
+            <h3 style="margin: 0;"><i class="fa-solid fa-receipt"></i> Payment Details</h3>
+            <button onclick="closePaymentModal()" style="background: none; border: none; font-size: 24px; cursor: pointer;">&times;</button>
+        </div>
+        <div style="padding: 20px;">
+            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
+                <span style="font-weight: 600;">Payment ID:</span>
+                <span id="detailId">-</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
+                <span style="font-weight: 600;">Date:</span>
+                <span id="detailDate">-</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
+                <span style="font-weight: 600;">Player Name:</span>
+                <span id="detailPlayer">-</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
+                <span style="font-weight: 600;">Amount:</span>
+                <span id="detailAmount">-</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
+                <span style="font-weight: 600;">Payment Mode:</span>
+                <span id="detailMode">-</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee;">
+                <span style="font-weight: 600;">Status:</span>
+                <span id="detailStatus">-</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 8px 0;">
+                <span style="font-weight: 600;">Remarks:</span>
+                <span id="detailRemarks">-</span>
+            </div>
+        </div>
+        <div style="padding: 15px 20px; border-top: 1px solid #ddd; text-align: right;">
+            <button onclick="closePaymentModal()" style="background: #2563eb; color: white; border: none; padding: 8px 20px; border-radius: 6px; cursor: pointer;">Close</button>
+        </div>
+    </div>
+</div>
+
+<script src="../../js/accountant/accountant_common.js"></script>
+<script src="../../js/accountant/accountant_dashboard.js"></script>
+</body>
+</html>

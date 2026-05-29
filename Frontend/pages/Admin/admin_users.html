@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Management | Cricket CRM</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../css/admin.css">
+    <style>
+        /* Only modal styles - rest comes from admin.css */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            width: 550px;
+            max-width: 90%;
+            max-height: 90%;
+            overflow-y: auto;
+        }
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+        .close-btn {
+            cursor: pointer;
+            font-size: 24px;
+            color: #666;
+        }
+        .close-btn:hover {
+            color: red;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #333;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #2563eb;
+        }
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+        .form-row .form-group {
+            flex: 1;
+        }
+        .btn-save {
+            background: #2563eb;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+        .btn-save:hover {
+            background: #1d4ed8;
+        }
+        .user-info {
+            background: white;
+            padding: 15px 25px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+        }
+        .logout-btn {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        .logout-btn:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+        }
+        
+        /* Header actions */
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        #searchInput {
+            padding: 10px 15px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 14px;
+            width: 250px;
+            transition: all 0.2s ease;
+        }
+        
+        #searchInput:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        /* Override badge styles to match admin.css */
+        .badge {
+            padding: 5px 12px;
+            border-radius: 30px;
+            font-size: 12px;
+            font-weight: 600;
+            min-width: 80px;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .badge.bg-primary {
+            background: linear-gradient(135deg, #dbeafe, #bfdbfe) !important;
+            color: #1e40af !important;
+            border: 1px solid #93c5fd;
+        }
+        
+        .badge.bg-success {
+            background: linear-gradient(135deg, #d1fae5, #a7f3d0) !important;
+            color: #065f46 !important;
+            border: 1px solid #6ee7b7;
+        }
+        
+        .badge.bg-danger {
+            background: linear-gradient(135deg, #fee2e2, #fecaca) !important;
+            color: #991b1b !important;
+            border: 1px solid #f87171;
+        }
+        
+        .badge.bg-info {
+            background: linear-gradient(135deg, #e0f2fe, #bae6fd) !important;
+            color: #075985 !important;
+            border: 1px solid #7dd3fc;
+        }
+        
+        .badge.bg-warning {
+            background: linear-gradient(135deg, #fef3c7, #fde68a) !important;
+            color: #92400e !important;
+            border: 1px solid #fbbf24;
+        }
+        
+        .badge.bg-secondary {
+            background: linear-gradient(135deg, #f1f5f9, #e2e8f0) !important;
+            color: #475569 !important;
+            border: 1px solid #cbd5e1;
+        }
+        
+        /* Action buttons styling */
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            align-items: center;
+            white-space: nowrap;
+        }
+        
+        .action-buttons .btn-sm {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            margin: 0;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+        
+        .action-buttons .btn-sm i {
+            font-size: 12px;
+        }
+        
+        .action-buttons .btn-sm:hover {
+            transform: translateY(-1px);
+            opacity: 0.9;
+        }
+        
+        .btn-warning {
+            background: #f59e0b;
+            color: white;
+        }
+        
+        .btn-warning:hover {
+            background: #d97706;
+        }
+        
+        .btn-danger {
+            background: #ef4444;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #dc2626;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #1d4ed8, #1e3a8a);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+        
+        /* Table styling */
+        .table th {
+            background: #f8fafc;
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .table td {
+            vertical-align: middle;
+            font-size: 14px;
+        }
+        
+        .table-card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+        }
+        
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .header h2 {
+            font-size: 28px;
+            color: #1e293b;
+            font-weight: 600;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .header h2 i {
+            color: #2563eb;
+            background: #eef2ff;
+            padding: 10px;
+            border-radius: 12px;
+        }
+        
+        /* Action column width */
+        .table th:last-child,
+        .table td:last-child {
+            text-align: center;
+            width: 160px;
+        }
+        
+        /* Table row hover */
+        tbody tr:hover {
+            background: #f8fafc;
+        }
+    </style>
+</head>
+<body>
+
+<div class="dashboard-container">
+    <div class="sidebar">
+        <h2>Cricket CRM</h2>
+        <div class="brand-sub">Admin Panel</div>
+        <a href="admin_dashboard.html"><i class="fa-solid fa-chart-line"></i> Dashboard</a>
+        <a href="admin_users.html" class="active"><i class="fa-solid fa-users"></i> Users</a>
+        <a href="admin_player.html"><i class="fa-solid fa-person-running"></i> Players</a>
+        <a href="admin_coaches.html"><i class="fa-solid fa-user-tie"></i> Coaches</a>
+        <a href="admin_batches.html"><i class="fa-solid fa-layer-group"></i> Batches</a>
+        <a href="admin_fee_structure.html"><i class="fa-solid fa-indian-rupee-sign"></i> Fee Structure</a>
+        <a href="admin_payment.html"><i class="fa-solid fa-credit-card"></i> Payments</a>
+        <a href="admin_reports.html"><i class="fa-solid fa-file-pdf"></i> Reports</a>
+        <a href="#" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+    </div>
+
+    <div class="main-content">
+        <div class="user-info">
+            <div>
+                <i class="fa-solid fa-user-circle"></i> 
+                Welcome, <strong id="userName">Admin</strong>
+                <span class="badge bg-primary ms-2" id="userRole">Admin</span>
+            </div>
+        </div>
+
+        <div class="header">
+            <h2><i class="fa-solid fa-users"></i> User Management</h2>
+            <div class="header-actions">
+                <input type="text" id="searchInput" placeholder="Search by name or email..."> 
+                <button class="btn-primary" onclick="showAddUserModal()">
+                    <i class="fa-solid fa-plus"></i> Add User
+                </button>
+            </div>
+        </div>
+
+        <div class="table-card">
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Date of Birth</th>
+                            <th>Joined</th>
+                            <th class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTableBody">
+                        <tr><td colspan="8" class="text-center">Loading...</td</tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add/Edit User Modal -->
+<div id="userModal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 id="modalTitle">Add User</h3>
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+        </div>
+        <form id="userForm">
+            <input type="hidden" id="userId">
+            
+            <div class="form-group">
+                <label>Full Name *</label>
+                <input type="text" id="full_name" required>
+            </div>
+            
+            <div class="form-group">
+                <label>Email *</label>
+                <input type="email" id="email" required>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="tel" id="phone">
+                </div>
+                <div class="form-group">
+                    <label>Date of Birth</label>
+                    <input type="date" id="date_of_birth">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Role</label>
+                    <select id="role">
+                        <option value="admin">Admin</option>
+                        <option value="coach">Coach</option>
+                        <option value="player">Player</option>
+                        <option value="accountant">Accountant</option>
+                        <option value="billing">Billing</option>
+                        <option value="maintenance">Maintenance</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Status</label>
+                    <select id="status">
+                        <option value="active">Active</option>
+                        <option value="inactive">Inactive</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="password">
+                <small class="text-muted d-block">Leave blank to keep current password (for edits only)</small>
+            </div>
+            
+            <button type="submit" class="btn-save">Save User</button>
+        </form>
+    </div>
+</div>
+
+<script src="../../js/admin/admin_common.js"></script>
+<script src="../../js/admin/admin_users.js"></script>
+</body>
+</html>

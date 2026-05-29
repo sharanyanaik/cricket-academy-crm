@@ -1,0 +1,895 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f0f2f5;
+}
+
+/* ================= CONTAINER ================= */
+.dashboard-container {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+/* ================= SIDEBAR ================= */
+.sidebar {
+  width: 260px;
+  height: 100vh;
+  padding: 25px 15px;
+  background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 100%);
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  overflow-y: auto;
+  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+}
+
+/* Logo Section */
+.sidebar h2 {
+  color: white;
+  font-size: 26px;
+  font-weight: 600;
+  text-align: center;
+  margin: 0 0 5px 0;
+  letter-spacing: 0.5px;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+}
+
+.sidebar .brand-sub,
+.sidebar .role {
+  text-align: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Navigation Links */
+.sidebar a {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  padding: 12px 18px;
+  margin: 4px 0;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  position: relative;
+}
+
+/* Hover Effect */
+.sidebar a:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+}
+
+/* Active Link */
+.sidebar a.active {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  font-weight: 600;
+  border-left: 4px solid #ffd700;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Icon Styling */
+.sidebar a i {
+  width: 24px;
+  text-align: center;
+  font-size: 18px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.sidebar a.active i {
+  color: #ffd700;
+}
+
+/* Logout Link Special Style */
+.sidebar a:last-child {
+  margin-top: auto;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding-top: 15px;
+}
+
+.sidebar a:last-child:hover {
+  background: rgba(239, 68, 68, 0.3);
+}
+
+/* ================= MAIN CONTENT ================= */
+.main-content {
+  flex: 1;
+  padding: 30px;
+  background: #f0f2f5;
+}
+
+/* ================= HEADER ================= */
+.page-header,
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 28px;
+  margin-bottom: 30px;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.page-header h2,
+.header h2 {
+  font-size: 28px;
+  color: #1e293b;
+  margin: 0;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+}
+
+.page-header h2 i,
+.header h2 i {
+  margin-right: 12px;
+  color: #2563eb;
+  font-size: 32px;
+  background: #eef2ff;
+  padding: 8px;
+  border-radius: 12px;
+}
+
+/* ================= CARD BOX STYLES ================= */
+.card-box {
+  background: white;
+  padding: 25px 20px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  text-align: center;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
+}
+
+.card-box i {
+  font-size: 40px;
+  color: #2563eb;
+  margin-bottom: 15px;
+  background: #eef2ff;
+  padding: 15px;
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-box h4 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 10px 0 5px;
+  line-height: 1.2;
+}
+
+.card-box p {
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 500;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Hover effect */
+.card-box:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 30px rgba(37, 99, 235, 0.15);
+}
+
+/* For coach dashboard specific cards */
+.col-md-4 .card-box i {
+  font-size: 36px;
+  padding: 12px;
+  width: 65px;
+  height: 65px;
+}
+
+.col-md-4 .card-box h4 {
+  font-size: 28px;
+}
+
+/* ================= STATS GRID ================= */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  background: white;
+  padding: 28px 20px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #2563eb, #7c3aed);
+}
+
+.stat-card i {
+  font-size: 40px;
+  color: #2563eb;
+  margin-bottom: 15px;
+  background: #eef2ff;
+  padding: 15px;
+  border-radius: 50%;
+}
+
+.stat-card h3 {
+  font-size: 32px;
+  font-weight: 700;
+  margin: 10px 0 5px;
+  color: #1e293b;
+}
+
+.stat-card p {
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Text color utilities */
+.text-primary { color: #2563eb; }
+.text-success { color: #10b981; }
+.text-warning { color: #f59e0b; }
+.text-danger { color: #ef4444; }
+.text-info { color: #3b82f6; }
+
+/* ================= CARDS ================= */
+.card,
+.table-card {
+  background: white;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  margin-bottom: 30px;
+  border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.card h3,
+.table-card h5 {
+  color: #1e293b;
+  font-size: 20px;
+  font-weight: 600;
+  margin: 0 0 20px 0;
+  display: flex;
+  align-items: center;
+}
+
+.card h3 i,
+.table-card h5 i {
+  color: #2563eb;
+  margin-right: 10px;
+  font-size: 24px;
+  background: #eef2ff;
+  padding: 8px;
+  border-radius: 10px;
+}
+
+/* ================= TABLES ================= */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 0;
+}
+
+.table > :not(caption) > * > * {
+  background-color: transparent ;
+}
+
+/* HEADER */
+.table thead th {
+  padding: 15px 12px;
+  background: #f8fafc;
+  color: #1e293b;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.table tbody td {
+  padding: 12px;
+  border-bottom: 1px solid #e2e8f0;
+  color: #1e293b ;
+  font-size: 14px;
+}
+
+.table-hover tbody tr:hover {
+  background: #f1f5f9;
+}
+
+/* ================= BADGES ================= */
+.badge {
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-size: 12px;
+  font-weight: 600;
+  display: inline-block;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Green - Active, Paid */
+.badge.paid,
+.badge.bg-success,
+.badge-active {
+  background: linear-gradient(135deg, #d1fae5, #a7f3d0) ;
+  color: #065f46 ;
+  border: 1px solid #6ee7b7;
+}
+
+/* Yellow - Pending */
+.badge.pending,
+.badge.bg-warning {
+  background: linear-gradient(135deg, #fef3c7, #fde68a) ;
+  color: #92400e ;
+  border: 1px solid #fbbf24;
+}
+
+/* Red - Inactive */
+.badge-inactive,
+.badge.bg-danger {
+  background: linear-gradient(135deg, #fee2e2, #fecaca) ;
+  color: #991b1b ;
+  border: 1px solid #f87171;
+}
+
+/* Blue - Info */
+.badge.bg-info,
+.badge.bg-primary {
+  background: linear-gradient(135deg, #dbeafe, #bfdbfe) ;
+  color: #1e40af ;
+  border: 1px solid #93c5fd;
+}
+
+/* ================= BUTTONS ================= */
+.add-btn,
+.btn-primary {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: white;
+  border: none;
+  padding: 12px 28px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.add-btn:hover,
+.btn-primary:hover {
+  background: linear-gradient(135deg, #1d4ed8, #1e3a8a);
+}
+
+.view-btn,
+.btn-small,
+.btn-sm {
+  background: #2563eb;
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.view-btn:hover,
+.btn-small:hover,
+.btn-sm:hover {
+  background: #1d4ed8;
+}
+
+.btn-outline-primary {
+  background: transparent;
+  border: 2px solid #2563eb;
+  color: #2563eb;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.btn-outline-primary:hover {
+  background: #2563eb;
+  color: white;
+}
+
+/* ================= SEARCH BAR ================= */
+.input-group {
+  display: flex;
+  align-items: center;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.input-group:focus-within {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.input-group-text {
+  padding: 12px 15px;
+  background: white;
+  color: #64748b;
+  border: none;
+}
+
+.form-control,
+.search {
+  flex: 1;
+  padding: 12px 15px;
+  border: none;
+  outline: none;
+  font-size: 14px;
+}
+
+/* ================= CHART ================= */
+.chart-container {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  margin: 20px 0;
+  padding: 15px;
+}
+
+.chart-legend-mini {
+  display: flex;
+  gap: 20px;
+  font-size: 14px;
+  color: #64748b;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 6px;
+}
+
+/* ================= BATCH CARDS ================= */
+.batch-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 25px;
+  margin-bottom: 30px;
+}
+
+.batch-card {
+  background: white;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.03);
+}
+
+.batch-card h3 {
+  color: #1e293b;
+  font-size: 20px;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+/* ================= UTILITIES ================= */
+.d-flex { display: flex; }
+.justify-content-between { justify-content: space-between; }
+.align-items-center { align-items: center; }
+.text-end { text-align: right; }
+.text-center { text-align: center; }
+
+.mb-3 { margin-bottom: 15px; }
+.mb-4 { margin-bottom: 24px; }
+.mt-2 { margin-top: 10px; }
+.mt-3 { margin-top: 15px; }
+.mt-4 { margin-top: 24px; }
+.me-2 { margin-right: 8px; }
+.p-3 { padding: 15px; }
+
+.bg-light { background: #f8fafc; }
+.rounded { border-radius: 8px; }
+.border { border: 1px solid #e2e8f0; }
+.small { font-size: 13px; }
+
+/* ================= RESPONSIVE - TABLET ================= */
+@media (max-width: 992px) {
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .sidebar {
+    width: 220px;
+  }
+  
+  .header h2 {
+    font-size: 22px;
+  }
+  
+  .card-box h4 {
+    font-size: 28px;
+  }
+  
+  .card-box i {
+    font-size: 36px;
+    width: 65px;
+    height: 65px;
+  }
+}
+
+/* ================= RESPONSIVE - MOBILE ================= */
+@media (max-width: 768px) {
+  .dashboard-container {
+    flex-direction: column;
+  }
+
+  /* VERTICAL STACKED SIDEBAR */
+  .sidebar {
+    width: 100%;
+    height: auto;
+    min-height: auto;
+    flex-direction: column;
+    padding: 15px;
+    position: relative;
+  }
+
+  .sidebar h2 {
+    width: 100%;
+    font-size: 22px;
+  }
+
+  .sidebar .brand-sub,
+  .sidebar .role {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  .sidebar a {
+    width: 100%;
+    justify-content: flex-start;
+    padding: 14px 20px;
+    margin: 3px 0;
+  }
+
+  .main-content {
+    width: 100%;
+    padding: 20px;
+  }
+
+  .page-header {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+    padding: 18px;
+  }
+
+  .row .col-md-3,
+  .row .col-md-4,
+  .row .col-md-6 {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  .card-box {
+    padding: 20px 15px;
+  }
+
+  .card-box i {
+    font-size: 32px;
+    padding: 12px;
+    width: 60px;
+    height: 60px;
+  }
+
+  .card-box h4 {
+    font-size: 26px;
+  }
+
+  .table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+/* ==================== FLOATING ACTION BUTTON (FAB) ==================== */
+/* Add this to the end of your admin.css file */
+
+.fab-container {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    z-index: 9999;
+}
+
+.fab-button {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.fab-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+}
+
+.fab-button i {
+    font-size: 24px;
+}
+
+.fab-menu {
+    position: absolute;
+    bottom: 70px;
+    right: 0;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    min-width: 220px;
+    display: none;
+    overflow: hidden;
+    z-index: 10000;
+}
+
+.fab-menu.show {
+    display: block;
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fab-menu a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    color: #1e293b;
+    text-decoration: none;
+    transition: background 0.2s;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.fab-menu a:hover {
+    background: #f1f5f9;
+}
+
+.fab-menu a:last-child {
+    border-bottom: none;
+}
+
+.fab-menu i {
+    width: 20px;
+    color: #2563eb;
+}
+
+.unread-dot {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #ef4444;
+    color: white;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+/* Quick Message Modal */
+.quick-message-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    z-index: 10001;
+    justify-content: center;
+    align-items: center;
+}
+
+.quick-message-modal.show {
+    display: flex;
+}
+
+.quick-message-content {
+    background: white;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 500px;
+    padding: 25px;
+    animation: modalSlideIn 0.3s ease;
+}
+
+@keyframes modalSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.quick-message-content h3 {
+    margin-bottom: 20px;
+    color: #1e293b;
+}
+
+.quick-message-content .form-control {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.quick-message-content .form-control:focus {
+    outline: none;
+    border-color: #2563eb;
+}
+
+.quick-message-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.btn-secondary {
+    background: #e2e8f0;
+    color: #1e293b;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #2563eb, #1d4ed8);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #1d4ed8, #1e3a8a);
+}
+
+/* Responsive for mobile */
+@media (max-width: 768px) {
+    .fab-container {
+        bottom: 20px;
+        right: 20px;
+    }
+    
+    .fab-button {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .fab-button i {
+        font-size: 20px;
+    }
+    
+    .fab-menu {
+        min-width: 180px;
+    }
+    
+    .fab-menu a {
+        padding: 10px 14px;
+        font-size: 13px;
+    }
+}
+/* ================= RESPONSIVE - SMALL MOBILE ================= */
+@media (max-width: 480px) {
+  .main-content {
+    padding: 15px;
+  }
+
+  .page-header h2 {
+    font-size: 20px;
+  }
+
+  .sidebar a {
+    padding: 12px 15px;
+    font-size: 12px;
+  }
+
+  .card-box {
+    padding: 15px 10px;
+  }
+
+  .card-box i {
+    font-size: 28px;
+    padding: 10px;
+    width: 55px;
+    height: 55px;
+  }
+
+  .card-box h4 {
+    font-size: 24px;
+  }
+
+  .card-box p {
+    font-size: 12px;
+  }
+}

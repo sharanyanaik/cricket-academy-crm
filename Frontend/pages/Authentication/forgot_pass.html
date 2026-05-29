@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Forgot Password | CrickTrack CRM</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="../../css/auth.css">
+
+  <style>
+    /* Additional styles for forgot password */
+    .back-link {
+      margin-top: 20px;
+      text-align: center;
+    }
+    
+    .back-link a {
+      color: #2563eb;
+      text-decoration: none;
+    }
+    
+    .back-link a:hover {
+      text-decoration: underline;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 500;
+      color: #333;
+      text-align: left;
+    }
+    
+    .password-requirements {
+      font-size: 12px;
+      color: #666;
+      margin-top: 5px;
+      text-align: left;
+    }
+    
+    .error-msg {
+      background-color: #fee;
+      color: #c33;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      display: none;
+      border: 1px solid #fcc;
+    }
+    
+    .success-msg {
+      background-color: #efe;
+      color: #3c3;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 15px;
+      display: none;
+      border: 1px solid #cfc;
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar">
+  <div class="logo">
+    <img src="../../images/logo1.jpg" alt="Logo">
+    <span>CrickTrack <span style="color:#2563eb">CRM</span></span>
+  </div>
+  <div class="nav-right">
+    <div class="contact">
+      <span><i class="fa fa-envelope"></i> info@cricktrack.com</span>
+      <span><i class="fa fa-phone"></i> +91 6587567501</span>
+    </div>
+    <nav>
+      <a href="../../index.html">Home</a>
+      <a href="../../about.html">About</a>
+      <a href="../../contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- FORGOT PASSWORD SECTION -->
+<section class="auth">
+  <div class="container">
+    <h2><i class="fa fa-key"></i> Reset Password</h2>
+    <p>Enter your email and new password to reset</p>
+
+    <div id="errorMsg" class="error-msg"></div>
+    <div id="successMsg" class="success-msg"></div>
+
+    <form id="forgotForm">
+      <div class="form-group">
+        <label for="email"><i class="fa fa-envelope"></i> Email Address</label>
+        <input type="email" id="email" placeholder="Enter your registered email" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="newPassword"><i class="fa fa-lock"></i> New Password</label>
+        <input type="password" id="newPassword" placeholder="Enter new password" required>
+        <div class="password-requirements">Password must be at least 6 characters</div>
+      </div>
+      
+      <div class="form-group">
+        <label for="confirmPassword"><i class="fa fa-check-circle"></i> Confirm Password</label>
+        <input type="password" id="confirmPassword" placeholder="Confirm new password" required>
+      </div>
+      
+      <button type="submit" id="resetBtn">Reset Password</button>
+      
+      <div class="back-link">
+        <a href="login.html"><i class="fa fa-arrow-left"></i> Back to Login</a>
+      </div>
+    </form>
+  </div>
+</section>
+
+<footer>© 2026 CrickTrack CRM. All rights reserved.</footer>
+
+<!-- JavaScript -->
+<script src="../../js/auth/forgot_pass.js"></script>
+
+</body>
+</html>

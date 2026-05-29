@@ -1,0 +1,270 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* BODY BACKGROUND */
+body {
+  background:linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+    url("../images/img7.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+}
+
+/* NAVBAR */
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 40px;
+  background: #ffffff;
+  position: relative;
+}
+
+/* LOGO */
+
+.logo {
+  display: flex;
+  align-items: center;
+  color: rgb(12, 10, 10);
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.logo img {
+  width: 40px;
+  margin-right: 10px;
+  border-radius: 50%;
+}
+
+.logo b {
+  color: #202a2d;
+}
+
+.logo span{
+  color: #2563eb;
+  font-weight: bolder;
+  font-size: 25px;
+}
+/* RIGHT SECTION */
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+/* CONTACT */
+
+.contact {
+  display: flex;
+  gap: 25px;
+  font-size: 16px;
+  color: #000000;
+}
+
+.contact span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 0.3s ease;
+  padding: 5px 8px;
+  border-radius: 20px;
+  cursor: pointer;
+}
+
+.contact i {
+  color: #2563eb;
+}
+
+/* NAV LINKS */
+
+nav {
+  display: flex;
+  gap: 25px;
+}
+
+nav a {
+  color:rgb(0, 0, 0);
+  text-decoration: none;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+nav a:hover {
+  color:  #2563eb;
+}
+
+/* REGISTRATION SECTION */
+.auth {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  padding: 20px;
+}
+
+/* REGISTRATION CARD */
+.container {
+  width: 420px;
+  padding: 45px;
+  background: #ffffff;
+  border-radius: 18px;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
+  text-align: center;
+  color: rgb(0, 0, 0);
+}
+
+.container h2 {
+  color: #000000;
+  margin-bottom: 10px;
+  font-size: 28px;
+}
+
+.container p {
+  margin-bottom: 30px;
+  color: #000000;
+}
+
+/* INPUTS */
+form input,
+form select {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 20px;
+  border-radius: 8px;
+  background: #eee;
+  font-size: 15px;
+  color: #333;
+}
+
+form select {
+  appearance: none;
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  background-size: 1em;
+  padding-right: 40px;
+}
+
+form input:focus,
+form select:focus {
+  outline: none;
+  box-shadow: 0 0 8px #3849a5;
+}
+
+/* DROPDOWN OPTIONS */
+form select option {
+  background: #fffdfd;
+  color: #000000;
+  padding: 10px;
+}
+
+form select option:hover,
+form select option:checked {
+  background: linear-gradient(135deg, #2563eb, #1e3a8a);
+  color: #000;
+  font-weight: 600;
+}
+
+/* BUTTON */
+form button {
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #2563eb, #1e3a8a);
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+  margin-top: 10px;
+}
+
+form button:hover {
+  background:linear-gradient(135deg, #2563eb, #1e3a8a);
+  transform: scale(1.02);
+}
+
+/* LOGIN LINK */
+.login-link {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #ccc;
+    font-weight: bolder;
+
+}
+
+.login-link a {
+  color: #000000;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.login-link a:hover {
+  text-decoration: underline;
+  color:#2563eb;
+
+}
+
+/* FOOTER */
+.public-footer {
+  text-align: center;
+  padding: 12px;
+  background: #ffffff;
+  color: #000000;
+  font-size: 14px;
+}
+
+/* RESPONSIVE */
+
+ @media (max-width: 768px) {
+  /* Navbar structure */
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 15px 20px;
+    gap: 10px;
+  }
+
+  /* Right section */
+  .nav-right {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* Contact left */
+  .contact {
+    flex-direction: column;
+    gap: 5px;
+    align-items: flex-start;
+  }
+
+  /* hover effects  */
+  .email:hover,
+  .phone:hover {
+    transform: translateX(3px);
+  }
+
+  /* Navigation links */
+  nav {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    width: 100%;
+  }
+
+  nav a {
+    padding: 5px 10px;
+  }
+}

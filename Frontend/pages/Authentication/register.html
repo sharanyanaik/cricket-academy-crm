@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>CrickTrack CRM | Register</title>
+  
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <!-- external CSS -->
+  <link rel="stylesheet" href="../../css/registration.css">
+  
+  <style>
+    .error-msg {
+        background: #fee2e2;
+        color: #991b1b;
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        display: none;
+        font-size: 14px;
+        text-align: left;
+    }
+    .success-msg {
+        background: #d1fae5;
+        color: #065f46;
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        display: none;
+        font-size: 14px;
+        text-align: left;
+    }
+    .spinner {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border: 2px solid #fff;
+        border-top-color: transparent;
+        border-radius: 50%;
+        animation: spin 0.6s linear infinite;
+        margin-right: 8px;
+    }
+    @keyframes spin {
+        to { transform: rotate(360deg); }
+    }
+    button:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
+    
+    /* Style for select dropdown */
+    #role {
+        cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="navbar">
+    <div class="logo">
+      <img src="../../images/logo1.jpg" alt="CrickTrack Logo">
+      <h1 class="logo">CrickTrack <span>CRM</span></h1>
+    </div>
+    <div class="nav-right">
+      <div class="contact">
+        <span><i class="fa fa-envelope"></i> info@cricktrack.com</span>
+        <span><i class="fa fa-phone"></i> +91 6587567501</span>
+      </div>
+      <nav>
+        <a href="../../index.html">Home</a>
+        <a href="../../about.html">About</a>
+        <a href="../../contact.html">Contact</a>
+      </nav>
+    </div>
+</header>
+
+<!-- REGISTRATION SECTION -->
+<section class="auth">
+  <div class="container">
+    <h2 style="color: #3549a5;"><i class="fa fa-user-plus"></i> Create Account</h2>
+    <p>Please fill the details below</p>
+    
+    <div id="errorMsg" class="error-msg"></div>
+    <div id="successMsg" class="success-msg"></div>
+    
+    <form id="registerForm">
+  <input type="text" id="full_name" placeholder="Full Name" required autocomplete="name">
+  <input type="email" id="email" placeholder="Email Address" required autocomplete="email">
+  <input type="password" id="password" placeholder="Password (min 8 characters)" required autocomplete="new-password" minlength="8">
+  <input type="date" id="date_of_birth" placeholder="Date of Birth" required autocomplete="bday">
+  <input type="tel" id="phone" placeholder="Phone Number (optional)" autocomplete="tel">
+  <select id="role" required>
+    <option value="" disabled selected>– Select Role –</option>
+    <option value="admin">Admin</option>
+    <option value="coach">Coach</option>
+    <option value="player">Player</option>
+    <option value="maintenance">Maintenance</option>
+    <option value="accountant">Accountant</option>
+    <option value="billing">Billing</option>
+  </select>
+  
+  <button type="submit" id="registerBtn">Register</button>
+  
+  <div class="login-link">
+    <p>Already have an account? <a href="login.html">Login here</a></p>
+  </div>
+</form>
+  </div>
+</section>
+
+<footer>© 2026 CrickTrack CRM</footer>
+
+<!-- JavaScript Files -->
+<script src="../../js/auth/auth.js"></script>
+<script src="../../js/auth/register.js"></script>
+
+</body>
+</html>
