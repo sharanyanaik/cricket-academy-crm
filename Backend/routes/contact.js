@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../config/db');
 
-// Submit contact form (Public - No authentication required)
+// Submit contact form 
 router.post('/submit', (req, res) => {
     const { name, email, phone, subject, message } = req.body;
     

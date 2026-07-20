@@ -256,7 +256,7 @@ async function handleRegister(e) {
     const full_name = document.getElementById('full_name').value.trim();
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
-    const role = document.getElementById('role').value;
+   const role = 'player'; // Force all registrations as player
     const date_of_birth = document.getElementById('date_of_birth').value;
     const phone = document.getElementById('phone').value.trim();
     
